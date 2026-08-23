@@ -349,7 +349,7 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('./assets/hero-bg.jpg') center center / cover no-repeat;
+  background: url('./assets/hero-building.jpg') center center / cover no-repeat;
   overflow: hidden;
   padding-top: var(--header-height);
   /* Evita colisión con la barra de navegación fija */
