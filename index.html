@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Abogados Consultores Group - Análisis estructural y resolución de controversias de alta complejidad.">
+  <meta name="keywords" content="abogados, consultores, derecho corporativo, litigio, estrategas legales">
+  <meta name="author" content="Abogados Consultores Group">
+
+  <title>Abogados Consultores Group | Asesoría Estratégica</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 (Free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="src/styles.css">
+
+  <!-- Favicon SVG inline -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+
+  <script src="https://cdn.jsdelivr.net/npm/netlify-identity-widget@1/build/netlify-identity-widget.js"></script>
+
+</head>
+
+<body>
+
+  <!-- ============================================================
+  WHATSAPP FLOTANTE
+  ============================================================ -->
+  <a href="#" class="whatsapp-float" id="whatsappFloat" target="_blank" rel="noopener noreferrer"
+    aria-label="Contactar por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-float-text" id="whatsappFloatText"></span>
+  </a>
+
+  <!-- ============================================================
+  HEADER / NAVEGACIÓN
+  ============================================================ -->
+  <header class="header" id="header">
+    <div class="container header-container">
+      <a href="#hero" class="logo" id="navLogo">
+        <div style="display: flex; align-items: center; gap: 10px; line-height: 1.2;">
+          <i class="fas fa-scale-balanced" style="font-size: 28px; color: var(--color-accent);"></i>
+          <span style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">
+            Abogados<br>Consultores Group
+          </span>
+        </div>
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav-list" id="navList"></ul>
+        <a href="#contacto" class="btn btn-nav-cta" id="navCta"></a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+  HERO
+  ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <p class="hero-badge" id="heroBadge">Consultoría Legal Profesional</p>
+      <h1 class="hero-title" id="heroTitle"></h1>
+      <p class="hero-subtitle" id="heroSubtitle"></p>
+      <div class="hero-ctas">
+        <a href="#contacto" class="btn btn-primary" id="heroCta1"></a>
+        <a href="#areas" class="btn btn-secondary" id="heroCta2"></a>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>Desliza</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  SOBRE MÍ
+  ============================================================ -->
+  <section class="section sobre-mi" id="sobre-mi">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="sobreMiTag">Quién Soy</span>
+        <h2 class="section-title" id="sobreMiTitulo"></h2>
+        <p class="section-subtitle" id="sobreMiSubtitulo"></p>
+      </div>
+
+      <div class="sobre-mi-grid">
+        <div class="sobre-mi-imagen fade-in">
+          <div class="img-wrapper">
+            <img src="" id="sobreMiImg" alt="Abogado" loading="lazy">
+          </div>
+          <div class="sobre-mi-experiencia">
+            <span class="numero" id="sobreMiExperienciaNum">15+</span>
+            <span class="texto" id="sobreMiExperienciaTexto">Años de Experiencia</span>
+          </div>
+        </div>
+
+        <div class="sobre-mi-texto fade-in">
+          <h3 class="sobre-mi-nombre" id="sobreMiNombre"></h3>
+          <p class="sobre-mi-cargo" id="sobreMiCargo"></p>
+          <div id="sobreMiDesc"></div>
+          <div class="sobre-mi-valores" id="sobreMiValores"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  ÁREAS DE PRÁCTICA
+  ============================================================ -->
+  <section class="section areas" id="areas">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="areasTag">Servicios</span>
+        <h2 class="section-title" id="areasTitulo"></h2>
+        <p class="section-subtitle" id="areasSubtitulo"></p>
+      </div>
+
+      <div class="areas-grid" id="areasGrid">
+        <!-- Se genera dinámicamente con JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  POR QUÉ ELEGIRNOS
+  ============================================================ -->
+  <section class="section por-que" id="por-que">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="porQueTag">Diferenciadores</span>
+        <h2 class="section-title" id="porQueTitulo"></h2>
+        <p class="section-subtitle" id="porQueSubtitulo"></p>
+      </div>
+
+      <div class="por-que-grid" id="porQueGrid">
+        <!-- Se genera dinámicamente con JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  TESTIMONIOS
+  ============================================================ -->
+  <section class="section testimonios" id="testimonios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="testimoniosTag">Clientes</span>
+        <h2 class="section-title" id="testimoniosTitulo"></h2>
+        <p class="section-subtitle" id="testimoniosSubtitulo"></p>
+      </div>
+
+      <div class="testimonios-carrusel">
+        <div class="testimonios-track" id="testimoniosTrack">
+          <!-- Se genera dinámicamente con JS -->
+        </div>
+        <div class="testimonios-controls">
+          <button class="testimonio-btn testimonio-btn-prev" aria-label="Anterior">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="testimonios-dots" id="testimoniosDots"></div>
+          <button class="testimonio-btn testimonio-btn-next" aria-label="Siguiente">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  PREGUNTAS FRECUENTES (FAQ)
+  ============================================================ -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="faqTag">FAQ</span>
+        <h2 class="section-title" id="faqTitulo"></h2>
+        <p class="section-subtitle" id="faqSubtitulo"></p>
+      </div>
+
+      <div class="faq-list" id="faqList">
+        <!-- Se genera dinámicamente con JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  BLOG
+  ============================================================ -->
+  <section class="section blog" id="blog">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="blogTag">Blog</span>
+        <h2 class="section-title" id="blogTitulo">Blog & Artículos</h2>
+        <p class="section-subtitle" id="blogSubtitulo"></p>
+      </div>
+
+      <div class="blog-grid" id="blogGrid">
+        <!-- Se genera dinámicamente con JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  CONTACTO
+  ============================================================ -->
+  <section class="section contacto" id="contacto">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" id="contactoTag">Contacto</span>
+        <h2 class="section-title" id="contactoTitulo"></h2>
+        <p class="section-subtitle" id="contactoSubtitulo"></p>
+      </div>
+
+      <div class="contacto-grid">
+        <div class="contacto-form fade-in">
+          <h3 class="contacto-form-title" id="contactoFormTitle"></h3>
+          <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="63813211-b8f8-4abf-bcaa-40e4a6f5f455">
+            <input type="hidden" name="subject" value="Nueva consulta desde la web">
+            <input type="hidden" name="from_name" value="Dr. Norman Molina - Web">
+            <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+            <div class="form-group">
+              <label for="nombre" id="lblNombre"></label>
+              <input type="text" id="nombre" name="nombre" required>
+              <span class="form-error">Por favor ingresa tu nombre</span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email" id="lblEmail"></label>
+                <input type="email" id="email" name="email" required>
+                <span class="form-error">Ingresa un correo válido</span>
+              </div>
+              <div class="form-group">
+                <label for="telefono" id="lblTelefono"></label>
+                <input type="tel" id="telefono" name="telefono" required>
+                <span class="form-error">Ingresa un teléfono válido</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="asunto" id="lblAsunto"></label>
+              <input type="text" id="asunto" name="asunto" required>
+              <span class="form-error">Por favor indica el asunto</span>
+            </div>
+
+            <div class="form-group">
+              <label for="mensaje" id="lblMensaje"></label>
+              <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+              <span class="form-error">Por favor escribe tu mensaje</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit">
+              <span id="contactoSubmitText"></span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+
+            <div class="form-success" id="formSuccess">
+              <i class="fas fa-check-circle"></i>
+              <p>¡Mensaje enviado con éxito! Te contactaremos pronto.</p>
+            </div>
+          </form>
+        </div>
+
+        <div class="contacto-info fade-in">
+          <div class="contacto-info-card" id="contactoInfoCard"></div>
+
+          <div class="contacto-sociales">
+            <h4>Canales Institucionales</h4>
+            <div class="sociales-icons" id="contactoSocialesIcons"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid" id="footerGrid">
+        <div class="footer-brand">
+          <a href="#hero" class="footer-logo">
+            <div style="display: flex; align-items: center; gap: 10px; line-height: 1.2;">
+              <i class="fas fa-scale-balanced" style="font-size: 28px; color: var(--color-accent);"></i>
+              <div>
+                <span style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; color: var(--color-white); display: block;">
+                  Dr. Norman Molina Maestre
+                </span>
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; display: block; margin-top: 2px;">
+                  Dirección Estratégica Central
+                </span>
+              </div>
+            </div>
+          </a>
+          <p class="footer-desc" id="footerDesc"></p>
+          <div class="footer-sociales" id="footerSociales"></div>
+        </div>
+        <div class="footer-links" id="footerLinksNav"></div>
+        <div class="footer-links" id="footerLinksServices"></div>
+        <div class="footer-links" id="footerLinksLegal"></div>
+      </div>
+
+      <div class="footer-bottom">
+        <p id="footerCopyright"></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="src/content.js"></script>
+  <script src="src/app.js?v=2"></script>
+
+  <script src="src/blog.js?v=2"></script>
+
+  <script>
+    if (window.netlifyIdentity) {
+      // Inicializar el sistema de usuarios
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+
+      // ESTA ES LA PIEZA QUE FALTA: Detectar el token de recuperación de contraseña
+      window.netlifyIdentity.on("close", () => {
+        if (document.location.hash.includes("recovery_token")) {
+          document.location.href = "/admin/";
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
