@@ -1,5 +1,5 @@
 ---
-title: "Guía legal paso a paso: ¿Cómo hacer un testamento válido?"
+title: "Guía muuuuuy legal paso a paso: ¿Cómo hacer un testamento válido?"
 date: 2026-06-11T16:00:00Z
 category: "Derecho Familiar"
 image: /images/uploads/documentos.jpg
