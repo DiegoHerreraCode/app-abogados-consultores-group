@@ -557,22 +557,19 @@ document.addEventListener('DOMContentLoaded', () => {
           .then(res => res.json())
           .then(data => {
             if (data.success) {
-              formSuccess.classList.add('show');
+              mostrarNotificacion('¡Consulta enviada con éxito! Nos comunicaremos a la brevedad.', 'success');
               contactForm.reset();
               submitBtn.disabled = false;
               submitBtn.innerHTML = '<span>Enviar Mensaje</span><i class="fas fa-paper-plane"></i>';
-              setTimeout(() => {
-                formSuccess.classList.remove('show');
-              }, 5000);
             } else {
-              throw new Error('Error al enviar');
+              throw new Error(data.message || 'Error al enviar');
             }
           })
           .catch(err => {
             console.error('Error:', err);
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span>Enviar Mensaje</span><i class="fas fa-paper-plane"></i>';
-            alert('Hubo un error al enviar el mensaje. Intenta de nuevo.');
+            mostrarNotificacion(err.message || 'Hubo un error al enviar tu consulta. Intenta de nuevo.', 'error');
           });
       }
     });
@@ -618,6 +615,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Función para mostrar pop-ups elegantes (Toasts)
+  function mostrarNotificacion(mensaje, tipo = 'success') {
+    // Eliminar toast anterior si existe para evitar solapamientos
+    const toastExistente = document.getElementById('custom-toast');
+    if (toastExistente) {
+      toastExistente.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.id = 'custom-toast';
+    toast.className = `custom-toast ${tipo}`;
+    
+    // Iconos de FontAwesome correspondientes
+    const icon = tipo === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+    
+    toast.innerHTML = `
+      <i class="fas ${icon}"></i>
+      <span>${mensaje}</span>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Animación de entrada
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 10);
+
+    // Desvanecer y remover a los 2 segundos (2000 ms)
+    setTimeout(() => {
+      toast.classList.remove('show');
+      // Esperar a que finalice la transición CSS antes de destruir el nodo
+      setTimeout(() => {
+        toast.remove();
+      }, 300);
+    }, 2000);
+  }
 
   // console.log('✅ Sitio web Dr. Norman Molina- Inicializado correctamente');
 });

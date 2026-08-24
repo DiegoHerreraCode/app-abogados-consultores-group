@@ -1222,6 +1222,64 @@ ul {
   }
 }
 
+/* Toast / Pop-up de Notificación Elegante */
+.custom-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--color-white);
+  padding: 16px 24px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 30px rgba(10, 31, 46, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 9999;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-left: 4px solid transparent;
+}
+
+.custom-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.custom-toast.success {
+  border-left-color: var(--color-success);
+  color: #1b5e20;
+  background: #edf7ed; /* Verde menta muy elegante y sutil */
+}
+
+.custom-toast.success i {
+  color: var(--color-success);
+  font-size: 1.25rem;
+}
+
+.custom-toast.error {
+  border-left-color: var(--color-error);
+  color: #c62828;
+  background: #fdebee; /* Rojo elegante y sutil */
+}
+
+.custom-toast.error i {
+  color: var(--color-error);
+  font-size: 1.25rem;
+}
+
+@media (max-width: 576px) {
+  .custom-toast {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    transform: translateY(50px);
+  }
+}
+
 /* ============================================================
    CONTACTO
    ============================================================ */

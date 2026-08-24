@@ -271,7 +271,7 @@ const content = {
       horario: "Lun - Vie: 8:00 am - 5:00 pm | Sáb: 8:00 am - 1:00 pm"
     },
     sociales: {
-      whatsapp: { url: "https://wa.me/584140888852", label: "WhatsApp" },
+      whatsapp: { url: "https://wa.me/5804265804237", label: "WhatsApp" },
       telegram: { url: "#", label: "Telegram" },
       facebook: { url: "#", label: "Facebook" },
       linkedin: { url: "#", label: "LinkedIn" },
@@ -283,7 +283,7 @@ const content = {
   // WHATSAPP FLOTANTE
   // ==========================================================
   whatsappFlotante: {
-    numero: "584140888852",
+    numero: "5804265804237",
     mensaje: "Deseo solicitar una intervención táctica o contacto corporativo.",
     texto: "Contacto Corporativo"
   },
