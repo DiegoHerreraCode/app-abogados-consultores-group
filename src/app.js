@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Rastrear clics como evento (analytics placeholder)
     whatsappFloat.addEventListener('click', () => {
       // Podríamos enviar un evento de analytics aquí
-      console.log('WhatsApp click desde botón flotante');
+      //console.log('WhatsApp click desde botón flotante');
     });
   }
 
@@ -619,5 +619,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  console.log('✅ Sitio web Dr. Norman Molina- Inicializado correctamente');
+  // console.log('✅ Sitio web Dr. Norman Molina- Inicializado correctamente');
 });
