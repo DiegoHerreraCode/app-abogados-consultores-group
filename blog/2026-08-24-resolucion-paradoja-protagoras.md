@@ -1,7 +1,7 @@
 ---
 title: "Perder para Ganar: La resolución de la paradoja de Protágoras"
 date: 2026-08-24T16:45:00Z
-category: "Corporativo"
+category: "LÓGICA Y FILOSOFÍA"
 image: /images/uploads/protagoras.jpg
 description: "Un análisis profundo sobre la Lógica Invertida aplicada a controversias estructurales. Una deconstrucción del clásico dilema histórico para encontrar el punto de quiebre y neutralizar cualquier sistema argumentativo adverso."
 ---
