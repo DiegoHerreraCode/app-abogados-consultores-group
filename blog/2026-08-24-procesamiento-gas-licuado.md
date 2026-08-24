@@ -2,7 +2,7 @@
 title: "Arquitectura contractual en proyectos de procesamiento de gas licuado"
 date: 2026-08-24T17:05:00Z
 category: "SECTOR ENERGÉTICO E HIDROCARBUROS"
-image: /images/uploads/protagoras.jpg
+image: /images/uploads/documentos.jpg
 description: "Evaluación de las vulnerabilidades regulatorias y el blindaje societario requerido para operaciones de alta escala y exportación en el sector energético, garantizando el control patrimonial absoluto."
 ---
 
