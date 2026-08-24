@@ -2,7 +2,7 @@
 title: "Patologías Institucionales: Disfunciones sistémicas en marcos corporativos"
 date: 2026-08-24T17:00:00Z
 category: "INGENIERÍA INSTITUCIONAL"
-image: /images/uploads/socio.jpg
+image: /images/uploads/socios.jpg
 description: "Ensayo crítico sobre las fallas estructurales dentro de los esquemas organizacionales. Una evaluación de cómo las deficiencias en el andamiaje legal provocan el colapso operativo mucho antes de la intervención judicial."
 ---
 
