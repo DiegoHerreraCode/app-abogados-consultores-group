@@ -301,3 +301,10 @@ const content = {
     copyright: `© ${new Date().getFullYear()} www.abogadosconsultores.group - Todos los derechos reservados.`
   }
 };
+
+if (typeof window !== 'undefined') {
+  window.content = content;
+}
+
+export { content };
+export default content;
