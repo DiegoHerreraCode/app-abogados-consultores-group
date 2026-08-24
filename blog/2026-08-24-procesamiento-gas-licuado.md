@@ -1,9 +1,9 @@
 ---
-title: "Perder para Ganar: La resolución de la paradoja de Protágoras"
-date: 2026-08-24T16:45:00Z
-category: "Corporativo"
-image: /images/uploads/protagoras.jpg
-description: "Un análisis profundo sobre la Lógica Invertida aplicada a controversias estructurales. Una deconstrucción del clásico dilema histórico para encontrar el punto de quiebre y neutralizar cualquier sistema argumentativo adverso."
+title: "Arquitectura contractual en proyectos de procesamiento de gas licuado"
+date: 2026-08-24T17:05:00Z
+category: "SECTOR ENERGÉTICO E HIDROCARBUROS"
+image: /images/uploads/documentos.jpg
+description: "Evaluación de las vulnerabilidades regulatorias y el blindaje societario requerido para operaciones de alta escala y exportación en el sector energético, garantizando el control patrimonial absoluto."
 ---
 
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.
