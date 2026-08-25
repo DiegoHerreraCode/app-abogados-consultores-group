@@ -27,9 +27,6 @@
   <!-- Favicon SVG inline -->
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
-
-  <script src="https://cdn.jsdelivr.net/npm/netlify-identity-widget@1/build/netlify-identity-widget.js"></script>
-
 </head>
 
 <body>
@@ -345,25 +342,6 @@
   <script src="src/app.js" type="module"></script>
   <script src="src/blog.js" type="module"></script>
 
-  <script>
-    if (window.netlifyIdentity) {
-      // Inicializar el sistema de usuarios
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-
-      // ESTA ES LA PIEZA QUE FALTA: Detectar el token de recuperación de contraseña
-      window.netlifyIdentity.on("close", () => {
-        if (document.location.hash.includes("recovery_token")) {
-          document.location.href = "/admin/";
-        }
-      });
-    }
-  </script>
 </body>
 
 </html>

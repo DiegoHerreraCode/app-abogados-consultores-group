@@ -255,7 +255,7 @@ const content = {
     tag: "ENLACE OPERATIVO",
     titulo: "Solicitar Intervención",
     subtitulo: "Canal confidencial para la evaluación estratégica y el despliegue de nuestra red nacional.",
-    consultaGratuita: "Solicitar Consulta de Evaluación Estratégica.",
+    consultaGratuita: "Solicitar Consulta de Evaluación Estratégica",
     formulario: {
       nombre: { label: "Nombre completo", placeholder: "Nombre completo" },
       email: { label: "Correo electrónico", placeholder: "Correo electrónico" },
@@ -266,7 +266,7 @@ const content = {
     },
     datos: {
       direccion: "CENTRO EMPRESARIAL LA ESMERALDA, AVENIDA LOS CORTIJOS, CAMPO ALEGRE, CHACAO, CARACAS, VENEZUELA 1060",
-      telefono: "Estados unidos: +1 (202)975-0769<br>Europa: +44 (177) 3835478<br>Venezuela: +58 (414)088-8852 / +58 (422) 088-8852",
+      telefono: "Estados unidos: +1 (202) 975-0769<br>Europa: +44 (177) 3835478<br>Venezuela: +58 (414) 088-8852 / +58 (422) 088-8852",
       email: "contacto@abogadosconsultores.group",
       horario: "Lun - Vie: 8:00 am - 5:00 pm | Sáb: 8:00 am - 1:00 pm"
     },

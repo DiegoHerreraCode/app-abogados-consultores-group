@@ -29,96 +29,97 @@ document.addEventListener("DOMContentLoaded", () => {
                 'Authorization': `token ${tokenGit}`
             }
         })
-        .then(res => {
-            if (!res.ok) {
-                return res.json().then(errData => {
-                    throw new Error(`GitHub API error ${res.status}: ${errData.message}`);
-                });
-            }
-            return res.json();
-        })
-        .then(async archivos => {
-            if (!Array.isArray(archivos)) {
-                console.error("Respuesta inesperada de GitHub:", archivos);
-                contenedor.innerHTML = "<p class='blog-no-results'>No se encontraron artículos en el repositorio.</p>";
-                return;
-            }
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(errData => {
+                        throw new Error(`GitHub API error ${res.status}: ${errData.message}`);
+                    });
+                }
+                return res.json();
+            })
+            .then(async archivos => {
+                console.log(archivos);
+                if (!Array.isArray(archivos)) {
+                    console.error("Respuesta inesperada de GitHub:", archivos);
+                    contenedor.innerHTML = "<p class='blog-no-results'>No se encontraron artículos en el repositorio.</p>";
+                    return;
+                }
 
-            // Filtrar solo archivos .md
-            const archivosMd = archivos.filter(archivo => archivo.name && archivo.name.endsWith('.md'));
+                // Filtrar solo archivos .md
+                const archivosMd = archivos.filter(archivo => archivo.name && archivo.name.endsWith('.md'));
 
-            if (archivosMd.length === 0) {
-                contenedor.innerHTML = "<p class='blog-no-results'>Próximamente publicaremos nuestros primeros artículos legales.</p>";
-                return;
-            }
+                if (archivosMd.length === 0) {
+                    contenedor.innerHTML = "<p class='blog-no-results'>Próximamente publicaremos nuestros primeros artículos legales.</p>";
+                    return;
+                }
 
-            // Descargar el contenido de todos los archivos .md en paralelo
-            const promesasCarga = archivosMd.map(archivo => {
-                const slug = archivo.name.replace('.md', '');
-                return fetch(`https://api.github.com/repos/${usuarioGit}/${repositorioGit}/contents/blog/${archivo.name}`, {
-                    headers: {
-                        'Authorization': `token ${tokenGit}`
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error(`Error descargando ${archivo.name}`);
-                    return response.json();
-                })
-                .then(data => {
-                    const textoMarkdown = decodeURIComponent(escape(atob(data.content)));
-                    const datos = parsearMarkdown(textoMarkdown);
-                    
-                    // Intentar extraer una fecha para ordenar. 
-                    // Puede ser del frontmatter (datos.date) o del nombre del archivo si tiene formato YYYY-MM-DD-nombre.md
-                    let fechaOriginal = datos.date || "";
-                    let fechaObj = new Date();
-                    
-                    if (fechaOriginal) {
-                        fechaObj = new Date(fechaOriginal);
-                    } else {
-                        // Tratar de buscar fecha en el nombre del archivo (ej. 2026-06-11-...)
-                        const matchFecha = archivo.name.match(/^(\d{4}-\d{2}-\d{2})/);
-                        if (matchFecha) {
-                            fechaObj = new Date(matchFecha[1]);
+                // Descargar el contenido de todos los archivos .md en paralelo
+                const promesasCarga = archivosMd.map(archivo => {
+                    const slug = archivo.name.replace('.md', '');
+                    return fetch(`https://api.github.com/repos/${usuarioGit}/${repositorioGit}/contents/blog/${archivo.name}`, {
+                        headers: {
+                            'Authorization': `token ${tokenGit}`
                         }
-                    }
+                    })
+                        .then(response => {
+                            if (!response.ok) throw new Error(`Error descargando ${archivo.name}`);
+                            return response.json();
+                        })
+                        .then(data => {
+                            const textoMarkdown = decodeURIComponent(escape(atob(data.content)));
+                            const datos = parsearMarkdown(textoMarkdown);
 
-                    return {
-                        slug: slug,
-                        filename: archivo.name,
-                        title: datos.title || "Artículo Legal",
-                        description: datos.description || "Haga clic en leer más para ver el contenido completo.",
-                        category: datos.category || "General",
-                        image: datos.image || "/images/blog-placeholder.jpg",
-                        date: fechaOriginal || fechaObj.toISOString().split('T')[0],
-                        dateObj: fechaObj,
-                        textoCompleto: textoMarkdown
-                    };
-                })
-                .catch(err => {
-                    console.error(`Error con archivo ${archivo.name}:`, err);
-                    return null;
+                            // Intentar extraer una fecha para ordenar. 
+                            // Puede ser del frontmatter (datos.date) o del nombre del archivo si tiene formato YYYY-MM-DD-nombre.md
+                            let fechaOriginal = datos.date || "";
+                            let fechaObj = new Date();
+
+                            if (fechaOriginal) {
+                                fechaObj = new Date(fechaOriginal);
+                            } else {
+                                // Tratar de buscar fecha en el nombre del archivo (ej. 2026-06-11-...)
+                                const matchFecha = archivo.name.match(/^(\d{4}-\d{2}-\d{2})/);
+                                if (matchFecha) {
+                                    fechaObj = new Date(matchFecha[1]);
+                                }
+                            }
+
+                            return {
+                                slug: slug,
+                                filename: archivo.name,
+                                title: datos.title || "Artículo Legal",
+                                description: datos.description || "Haga clic en leer más para ver el contenido completo.",
+                                category: datos.category || "General",
+                                image: datos.image || "/images/blog-placeholder.jpg",
+                                date: fechaOriginal || fechaObj.toISOString().split('T')[0],
+                                dateObj: fechaObj,
+                                textoCompleto: textoMarkdown
+                            };
+                        })
+                        .catch(err => {
+                            console.error(`Error con archivo ${archivo.name}:`, err);
+                            return null;
+                        });
                 });
+
+                const resultados = await Promise.all(promesasCarga);
+                // Filtrar errores (nulos) y ordenar por fecha de forma descendente (más nuevos primero)
+                todosLosArticulos = resultados
+                    .filter(art => art !== null)
+                    .sort((a, b) => b.dateObj - a.dateObj);
+
+                actualizarVista();
+                configurarBuscador();
+            })
+            .catch(err => {
+                console.error("Error consultando GitHub:", err);
+                contenedor.innerHTML = `<p class='blog-no-results'>Error al cargar los artículos: ${err.message}</p>`;
             });
-
-            const resultados = await Promise.all(promesasCarga);
-            // Filtrar errores (nulos) y ordenar por fecha de forma descendente (más nuevos primero)
-            todosLosArticulos = resultados
-                .filter(art => art !== null)
-                .sort((a, b) => b.dateObj - a.dateObj);
-
-            actualizarVista();
-            configurarBuscador();
-        })
-        .catch(err => {
-            console.error("Error consultando GitHub:", err);
-            contenedor.innerHTML = `<p class='blog-no-results'>Error al cargar los artículos: ${err.message}</p>`;
-        });
     }
 
     function configurarBuscador() {
         if (!inputBusqueda) return;
-        
+
         inputBusqueda.addEventListener("input", (e) => {
             queryBusqueda = normalizarTexto(e.target.value);
             paginaActual = 1; // Volver a la primera página al buscar
@@ -156,11 +157,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = document.createElement("div");
             card.className = 'blog-card fade-in-entry';
             card.style.animationDelay = `${index * 100}ms`; // Delay escalonado de 100ms entre artículos
-            
-            let fechaFormateada = art.dateObj ? art.dateObj.toLocaleDateString('es-ES', { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
+
+            let fechaFormateada = art.dateObj ? art.dateObj.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
             }) : '';
 
             card.innerHTML = `
@@ -243,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const seccionBlog = document.getElementById("blog");
         if (seccionBlog) {
             // Altura aproximada del header fijo para evitar que tape el contenido
-            const headerHeight = 90; 
+            const headerHeight = 90;
             const elementoPos = seccionBlog.getBoundingClientRect().top + window.scrollY;
             const offsetPos = elementoPos - headerHeight;
 

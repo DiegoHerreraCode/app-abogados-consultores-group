@@ -1222,6 +1222,139 @@ ul {
   }
 }
 
+/* Divisor Elegante */
+.elegant-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 60px 20px;
+  max-width: 600px;
+}
+
+.elegant-divider::before,
+.elegant-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+  opacity: 0.5;
+}
+
+.elegant-divider-icon {
+  margin: 0 20px;
+  color: var(--color-accent);
+  font-size: 1.25rem;
+}
+
+/* Carrusel de Artículos Relacionados */
+.articulos-relacionados-section {
+  /* Se removió el border-top para usar un divisor más elegante */
+}
+
+.relacionados-carrusel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0 auto;
+}
+
+.relacionados-carrusel-track-container {
+  overflow: hidden;
+  width: 100%;
+  padding: 15px 5px;
+}
+
+.relacionados-track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  gap: 25px;
+}
+
+.relacionado-card-item {
+  flex: 0 0 calc((100% - 25px) / 2);
+  max-width: calc((100% - 25px) / 2);
+}
+
+@media (max-width: 768px) {
+  .relacionado-card-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.relacionado-card-item .blog-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.relacionado-card-item .blog-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.relacionado-card-item .blog-card p {
+  flex-grow: 1;
+}
+
+.relacionados-nav-btn {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  font-size: 1rem;
+  z-index: 2;
+}
+
+.relacionados-nav-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-primary);
+  transform: scale(1.08);
+}
+
+.relacionados-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.relacionados-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 25px;
+}
+
+.relacionados-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.relacionados-dots .dot.active {
+  background: var(--color-accent);
+  width: 25px;
+  border-radius: 5px;
+}
+
 /* Toast / Pop-up de Notificación Elegante */
 .custom-toast {
   position: fixed;
@@ -1919,8 +2052,6 @@ ul {
     width: 100%;
   }
 }
-
-/* Forzar redeploy Netlify */
 
 /* Ocultar indicador de scroll en pantallas de poca altura vertical para evitar solapamientos */
 @media (max-height: 680px) {

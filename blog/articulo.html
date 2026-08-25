@@ -298,6 +298,43 @@
     </div>
   </section>
 
+  <!-- ARTÍCULOS RELACIONADOS -->
+  <section class="section articulos-relacionados-section" id="articulosRelacionadosSection" style="display: none; padding: 0 0 40px; background: var(--color-bg);">
+    <div class="elegant-divider">
+      <i class="fas fa-balance-scale elegant-divider-icon"></i>
+    </div>
+
+    <div class="container" style="max-width: 1000px;">
+      <div class="section-header" style="margin-bottom: 35px;">
+        <span class="section-tag">Lecturas Recomendadas</span>
+        <h2 class="section-title" style="font-size: 2rem;">Artículos Relacionados</h2>
+        <p class="section-subtitle">Análisis complementarios en <strong id="relacionadosCategoriaTexto" style="color: var(--color-primary);"></strong></p>
+      </div>
+
+      <div class="relacionados-carrusel-wrapper">
+        <button class="relacionados-nav-btn prev" id="relacionadosPrev" aria-label="Artículo anterior">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="relacionados-carrusel-track-container" id="relacionadosTrackContainer">
+          <div class="relacionados-track" id="relacionadosTrack">
+            <!-- Inyectado dinámicamente -->
+          </div>
+        </div>
+
+        <button class="relacionados-nav-btn next" id="relacionadosNext" aria-label="Siguiente artículo">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="relacionados-dots" id="relacionadosDots"></div>
+    </div>
+
+    <div class="elegant-divider" style="padding-top: 80px; padding-bottom: 20px;">
+      <i class="fas fa-balance-scale elegant-divider-icon"></i>
+    </div>
+  </section>
+
   <!-- CONTACTO -->
   <section class="contacto section" id="contacto">
     <div class="container">
@@ -311,9 +348,9 @@
         <div class="contacto-form">
           <h3 class="contacto-form-title" id="contactoFormTitle"></h3>
           <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="63813211-b8f8-4abf-bcaa-40e4a6f5f455">
+            <input type="hidden" name="access_key" value="39827ab5-edb0-4dd1-8672-f5fdd0412675">
             <input type="hidden" name="subject" value="Nueva consulta desde la web">
-            <input type="hidden" name="from_name" value="Dr. Norman Molina - Web">
+            <input type="hidden" name="from_name" value="Abogados Consultores Group ⚖️">
             <input type="checkbox" name="botcheck" class="hidden" style="display:none">
             <div class="form-group">
               <label for="nombre" id="lblNombre"></label>
@@ -537,6 +574,11 @@
           }
 
           document.getElementById("contenido-articulo").innerHTML = cabeceraMeta + marked.parse(contenidoMarkdown);
+
+          // Cargar artículos relacionados de la misma categoría
+          if (categoria) {
+            cargarArticulosRelacionados(categoria, articuloId, usuarioGit, repositorioGit, token);
+          }
         })
         .catch(err => {
           console.error("Error cargando artículo:", err);
@@ -544,6 +586,218 @@
           document.getElementById("articuloError").style.display = "block";
         });
     });
+
+    // Carga de artículos relacionados pertenecientes a la misma categoría
+    function cargarArticulosRelacionados(categoriaActual, articuloActualSlug, usuarioGit, repositorioGit, token) {
+      const seccion = document.getElementById('articulosRelacionadosSection');
+      const textoCategoria = document.getElementById('relacionadosCategoriaTexto');
+      const track = document.getElementById('relacionadosTrack');
+
+      if (!seccion || !track) return;
+
+      if (textoCategoria) {
+        textoCategoria.textContent = `"${categoriaActual}"`;
+      }
+
+      const normalizar = (txt) => (txt || '').toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const catActualNorm = normalizar(categoriaActual);
+
+      fetch(`https://api.github.com/repos/${usuarioGit}/${repositorioGit}/contents/blog`, {
+        headers: { 'Authorization': `token ${token}` }
+      })
+        .then(res => res.ok ? res.json() : [])
+        .then(async archivos => {
+          if (!Array.isArray(archivos)) return;
+
+          const archivosMd = archivos.filter(a => a.name && a.name.endsWith('.md') && a.name.replace('.md', '') !== articuloActualSlug);
+          if (archivosMd.length === 0) return;
+
+          const promesas = archivosMd.map(archivo => {
+            const slug = archivo.name.replace('.md', '');
+            return fetch(`https://api.github.com/repos/${usuarioGit}/${repositorioGit}/contents/blog/${archivo.name}`, {
+              headers: { 'Authorization': `token ${token}` }
+            })
+              .then(r => r.ok ? r.json() : null)
+              .then(d => {
+                if (!d || !d.content) return null;
+                const texto = decodeURIComponent(escape(atob(d.content)));
+                const lineas = texto.split('\n');
+                let tit = 'Artículo Legal', cat = 'General', desc = '', img = '/images/blog-placeholder.jpg', fecha = '';
+                let esMeta = false;
+                for (const l of lineas) {
+                  if (l.trim() === '---') { esMeta = !esMeta; if (!esMeta) break; continue; }
+                  if (esMeta) {
+                    if (l.startsWith('title:')) tit = l.replace('title:', '').trim().replace(/^"|"$/g, '');
+                    if (l.startsWith('category:')) cat = l.replace('category:', '').trim().replace(/^"|"$/g, '');
+                    if (l.startsWith('description:')) desc = l.replace('description:', '').trim().replace(/^"|"$/g, '');
+                    if (l.startsWith('image:')) img = l.replace('image:', '').trim().replace(/^"|"$/g, '');
+                    if (l.startsWith('date:')) fecha = l.replace('date:', '').trim().replace(/^"|"$/g, '');
+                  }
+                }
+
+                return {
+                  slug,
+                  title: tit,
+                  category: cat,
+                  description: desc,
+                  image: img,
+                  date: fecha
+                };
+              })
+              .catch(() => null);
+          });
+
+          const resultados = (await Promise.all(promesas)).filter(art => art !== null);
+          
+          // Filtrar por la misma categoría y ordenar del más reciente al más antiguo
+          const relacionados = resultados
+            .filter(art => normalizar(art.category) === catActualNorm)
+            .sort((a, b) => {
+              const fechaA = a.date ? new Date(a.date).getTime() : 0;
+              const fechaB = b.date ? new Date(b.date).getTime() : 0;
+              return fechaB - fechaA;
+            });
+
+          if (relacionados.length === 0) {
+            seccion.style.display = 'none';
+            return;
+          }
+
+          // Inyectar tarjetas
+          track.innerHTML = '';
+          relacionados.forEach(art => {
+            const item = document.createElement('div');
+            item.className = 'relacionado-card-item';
+            
+            let fechaFormateada = art.date ? new Date(art.date).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+            }) : '';
+
+            item.innerHTML = `
+              <div class="blog-card">
+                <div class="blog-card-img">
+                  <img src="${art.image}" alt="${art.title}" loading="lazy">
+                </div>
+                <div class="blog-card-body">
+                  <span class="blog-card-categoria">${art.category}</span>
+                  <h3>${art.title}</h3>
+                  <p>${art.description}</p>
+                  <div class="blog-card-footer">
+                    <span class="blog-card-fecha"><i class="far fa-calendar-alt"></i> ${fechaFormateada}</span>
+                    <a href="/blog/articulo.html?id=${art.slug}" class="blog-card-link">Leer más <i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            `;
+            track.appendChild(item);
+          });
+
+          seccion.style.display = 'block';
+          iniciarCarruselRelacionados(relacionados.length);
+        })
+        .catch(err => {
+          console.error('Error cargando artículos relacionados:', err);
+        });
+    }
+
+    // Funcionalidad del carrusel de artículos relacionados
+    function iniciarCarruselRelacionados(totalItems) {
+      const track = document.getElementById('relacionadosTrack');
+      const btnPrev = document.getElementById('relacionadosPrev');
+      const btnNext = document.getElementById('relacionadosNext');
+      const dotsContainer = document.getElementById('relacionadosDots');
+
+      if (!track) return;
+
+      let currentIndex = 0;
+
+      function getItemsPerPage() {
+        return window.innerWidth <= 768 ? 1 : 2;
+      }
+
+      function getMaxIndex() {
+        const perPage = getItemsPerPage();
+        return Math.max(0, totalItems - perPage);
+      }
+
+      function actualizarCarrusel() {
+        const perPage = getItemsPerPage();
+        const maxIdx = getMaxIndex();
+        if (currentIndex > maxIdx) currentIndex = maxIdx;
+        if (currentIndex < 0) currentIndex = 0;
+
+        const gap = 25;
+        const trackContainer = track.parentElement;
+        if (!trackContainer) return;
+        
+        const trackWidth = trackContainer.offsetWidth;
+        const itemWidth = (trackWidth - (perPage - 1) * gap) / perPage;
+        const desplazamiento = currentIndex * (itemWidth + gap);
+
+        track.style.transform = `translateX(-${desplazamiento}px)`;
+
+        if (btnPrev) btnPrev.disabled = currentIndex === 0;
+        if (btnNext) btnNext.disabled = currentIndex >= maxIdx;
+
+        if (totalItems <= perPage) {
+          if (btnPrev) btnPrev.style.display = 'none';
+          if (btnNext) btnNext.style.display = 'none';
+        } else {
+          if (btnPrev) btnPrev.style.display = 'flex';
+          if (btnNext) btnNext.style.display = 'flex';
+        }
+
+        renderDots();
+      }
+
+      function renderDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        const perPage = getItemsPerPage();
+        const totalPages = Math.ceil(totalItems / perPage);
+
+        if (totalPages <= 1) {
+          dotsContainer.style.display = 'none';
+          return;
+        }
+
+        dotsContainer.style.display = 'flex';
+        const activePage = Math.floor(currentIndex / perPage);
+
+        for (let i = 0; i < totalPages; i++) {
+          const dot = document.createElement('button');
+          dot.className = `dot ${i === activePage ? 'active' : ''}`;
+          dot.setAttribute('aria-label', `Página ${i + 1}`);
+          dot.addEventListener('click', () => {
+            currentIndex = Math.min(i * perPage, getMaxIndex());
+            actualizarCarrusel();
+          });
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      btnPrev?.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          actualizarCarrusel();
+        }
+      });
+
+      btnNext?.addEventListener('click', () => {
+        if (currentIndex < getMaxIndex()) {
+          currentIndex++;
+          actualizarCarrusel();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        actualizarCarrusel();
+      });
+
+      actualizarCarrusel();
+    }
 
     // Formulario de contacto con Web3Forms
     const contactForm = document.getElementById("contactForm");
