@@ -272,7 +272,15 @@
   <!-- HEADER (misma apariencia que index, sin menú) -->
   <header class="header" id="header">
     <div class="container header-container">
-      <a href="/" class="logo">Dr. Norman Molina</a>
+      <a href="/" class="logo header-logo-link" id="navLogo">
+        <div class="header-logo-box">
+          <i class="fas fa-scale-balanced header-logo-icon"></i>
+          <div class="header-logo-text">
+            <span class="header-logo-title">Dr. Norman Molina</span>
+            <span class="header-logo-sub">Abogados Consultores</span>
+          </div>
+        </div>
+      </a>
       <a href="#contacto" class="btn btn-nav-cta">Agendar Consulta</a>
     </div>
   </header>
@@ -345,7 +353,16 @@
         </button>
       </div>
 
-      <div class="relacionados-dots" id="relacionadosDots"></div>
+      <!-- Controles móviles y dots -->
+      <div class="relacionados-mobile-controls" id="relacionadosMobileControls">
+        <button class="relacionados-nav-btn prev mobile-btn" id="relacionadosPrevMobile" aria-label="Artículo anterior">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="relacionados-dots" id="relacionadosDots"></div>
+        <button class="relacionados-nav-btn next mobile-btn" id="relacionadosNextMobile" aria-label="Siguiente artículo">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
     </div>
 
     <div class="elegant-divider" style="padding-top: 80px; padding-bottom: 20px;">
@@ -812,6 +829,9 @@
       const track = document.getElementById('relacionadosTrack');
       const btnPrev = document.getElementById('relacionadosPrev');
       const btnNext = document.getElementById('relacionadosNext');
+      const btnPrevMobile = document.getElementById('relacionadosPrevMobile');
+      const btnNextMobile = document.getElementById('relacionadosNextMobile');
+      const mobileControls = document.getElementById('relacionadosMobileControls');
       const dotsContainer = document.getElementById('relacionadosDots');
 
       if (!track) return;
@@ -833,25 +853,44 @@
         if (currentIndex > maxIdx) currentIndex = maxIdx;
         if (currentIndex < 0) currentIndex = 0;
 
-        const gap = 25;
+        const gap = perPage === 1 ? 20 : 25;
         const trackContainer = track.parentElement;
         if (!trackContainer) return;
-        
-        const trackWidth = trackContainer.offsetWidth;
-        const itemWidth = (trackWidth - (perPage - 1) * gap) / perPage;
-        const desplazamiento = currentIndex * (itemWidth + gap);
 
+        const trackWidth = trackContainer.getBoundingClientRect().width;
+        const itemWidth = (trackWidth - (perPage - 1) * gap) / perPage;
+
+        const items = track.querySelectorAll('.relacionado-card-item');
+        items.forEach(it => {
+          it.style.flex = `0 0 ${itemWidth}px`;
+          it.style.width = `${itemWidth}px`;
+        });
+
+        const desplazamiento = currentIndex * (itemWidth + gap);
         track.style.transform = `translateX(-${desplazamiento}px)`;
 
-        if (btnPrev) btnPrev.disabled = currentIndex === 0;
-        if (btnNext) btnNext.disabled = currentIndex >= maxIdx;
+        const isStart = currentIndex === 0;
+        const isEnd = currentIndex >= maxIdx;
+
+        [btnPrev, btnPrevMobile].forEach(btn => {
+          if (btn) btn.disabled = isStart;
+        });
+        [btnNext, btnNextMobile].forEach(btn => {
+          if (btn) btn.disabled = isEnd;
+        });
 
         if (totalItems <= perPage) {
           if (btnPrev) btnPrev.style.display = 'none';
           if (btnNext) btnNext.style.display = 'none';
+          if (mobileControls) mobileControls.style.display = 'none';
         } else {
-          if (btnPrev) btnPrev.style.display = 'flex';
-          if (btnNext) btnNext.style.display = 'flex';
+          if (window.innerWidth > 768) {
+            if (btnPrev) btnPrev.style.display = 'flex';
+            if (btnNext) btnNext.style.display = 'flex';
+            if (mobileControls) mobileControls.style.display = 'none';
+          } else {
+            if (mobileControls) mobileControls.style.display = 'flex';
+          }
         }
 
         renderDots();
@@ -883,19 +922,24 @@
         }
       }
 
-      btnPrev?.addEventListener('click', () => {
-        if (currentIndex > 0) {
-          currentIndex--;
-          actualizarCarrusel();
-        }
-      });
-
-      btnNext?.addEventListener('click', () => {
+      const avanzar = () => {
         if (currentIndex < getMaxIndex()) {
           currentIndex++;
           actualizarCarrusel();
         }
-      });
+      };
+
+      const retroceder = () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          actualizarCarrusel();
+        }
+      };
+
+      btnPrev?.addEventListener('click', retroceder);
+      btnPrevMobile?.addEventListener('click', retroceder);
+      btnNext?.addEventListener('click', avanzar);
+      btnNextMobile?.addEventListener('click', avanzar);
 
       window.addEventListener('resize', () => {
         actualizarCarrusel();
