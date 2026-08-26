@@ -48,8 +48,9 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
+  max-width: 100vw;
 }
 
 body {
@@ -60,9 +61,17 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
+  max-width: 100vw;
   position: relative;
+}
+
+main, section, header, footer {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: clip;
 }
 
 img {
@@ -2138,7 +2147,7 @@ ul {
 
   .sobre-mi-experiencia {
     bottom: -15px;
-    right: -10px;
+    right: 0;
     padding: 16px 20px;
   }
 
@@ -2227,12 +2236,16 @@ ul {
     padding: 16px;
   }
 
+  .contacto-form {
+    padding: 20px 14px;
+  }
+
   .contacto-info-card {
-    padding: 24px;
+    padding: 20px 14px;
   }
 
   .contacto-sociales {
-    padding: 20px;
+    padding: 20px 14px;
   }
 
   .nav {
