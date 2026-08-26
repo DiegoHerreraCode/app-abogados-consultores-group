@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Página Principal -->
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Artículos del Blog / Producción Intelectual -->
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/blog/articulo.html?id=2026-08-24-resolucion-paradoja-protagoras</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/blog/articulo.html?id=2026-08-24-patologias-institucionales</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/blog/articulo.html?id=2026-08-24-procesamiento-gas-licuado</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/blog/articulo.html?id=2026-06-11-errores-legales-comunes-al-crear-una-empresa</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/blog/articulo.html?id=2026-06-11-guia-legal-para-hacer-un-testamento</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://app-abogados-consultores-group.vercel.app/blog/articulo.html?id=2026-06-11-derechos-ante-un-despido-injustificado</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

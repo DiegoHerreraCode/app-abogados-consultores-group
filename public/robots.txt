@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://app-abogados-consultores-group.vercel.app/sitemap.xml

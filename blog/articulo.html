@@ -4,10 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Artículo legal - Dr. Norman Molina, Abogado">
-  <meta name="author" content="Dr. Norman Molina">
+  <!-- SEO Meta Tags Primarios -->
+  <meta name="description" id="meta-description" content="Artículo doctrinal y análisis de alta complejidad - Dr. Norman Molina, Abogados Consultores Group">
+  <meta name="author" content="Dr. Norman Molina-Maestre | Abogados Consultores Group">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" id="canonical-url" href="https://app-abogados-consultores-group.vercel.app/blog/articulo.html">
 
-  <title id="page-title">Artículo Legal - Dr. Norman Molina</title>
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Abogados Consultores Group">
+  <meta property="og:title" id="og-title" content="Artículo Legal - Dr. Norman Molina">
+  <meta property="og:description" id="og-description" content="Análisis estructural y resolución de controversias de alta complejidad.">
+  <meta property="og:image" id="og-image" content="https://app-abogados-consultores-group.vercel.app/assets/hero-building.jpg">
+  <meta property="og:url" id="og-url" content="https://app-abogados-consultores-group.vercel.app/blog/articulo.html">
+  <meta property="og:locale" content="es_VE">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" id="twitter-title" content="Artículo Legal - Dr. Norman Molina">
+  <meta name="twitter:description" id="twitter-description" content="Análisis estructural y resolución de controversias de alta complejidad.">
+  <meta name="twitter:image" id="twitter-image" content="https://app-abogados-consultores-group.vercel.app/assets/hero-building.jpg">
+
+  <title id="page-title">Artículo Legal - Dr. Norman Molina | Abogados Consultores Group</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -544,14 +562,25 @@
           let titulo = "Artículo Legal";
           let categoria = "";
           let fecha = "";
+          let descripcion = "";
+          let imagen = "";
           lineasMetadata.forEach(l => {
             if (l.startsWith("title:")) titulo = l.replace("title:", "").trim().replace(/^"|"$/g, '');
             if (l.startsWith("category:")) categoria = l.replace("category:", "").trim().replace(/^"|"$/g, '');
             if (l.startsWith("date:")) fecha = l.replace("date:", "").trim().replace(/^"|"$/g, '');
+            if (l.startsWith("description:")) descripcion = l.replace("description:", "").trim().replace(/^"|"$/g, '');
+            if (l.startsWith("image:")) imagen = l.replace("image:", "").trim().replace(/^"|"$/g, '');
           });
 
-          // Título de la pestaña
-          document.getElementById("page-title").textContent = `${titulo} - Dr. Norman Molina`;
+          // Actualizar SEO y metadatos dinámicos
+          actualizarSEOArticulo({
+            titulo,
+            categoria,
+            fecha,
+            descripcion: descripcion || `${titulo} - Análisis jurídico y estratégico por el Dr. Norman Molina.`,
+            imagen: imagen || "/assets/hero-building.jpg",
+            slug: articuloId
+          });
 
           // Hero: título y badge categoría/fecha
           document.getElementById("titulo-articulo-hero").textContent = titulo;
@@ -586,6 +615,82 @@
           document.getElementById("articuloError").style.display = "block";
         });
     });
+
+    // Actualizar dinámicamente Meta Tags, Open Graph, Twitter Cards y Schema JSON-LD
+    function actualizarSEOArticulo({ titulo, categoria, fecha, descripcion, imagen, slug }) {
+      const pageTitle = `${titulo} | Dr. Norman Molina - Abogados Consultores Group`;
+      document.title = pageTitle;
+      const titleElem = document.getElementById("page-title");
+      if (titleElem) titleElem.textContent = pageTitle;
+
+      const origin = window.location.origin;
+      const fullUrl = `${origin}/blog/articulo.html?id=${slug}`;
+      const fullImageUrl = imagen.startsWith("http") ? imagen : `${origin}${imagen}`;
+
+      // Meta Description & Canonical
+      const metaDesc = document.getElementById("meta-description");
+      if (metaDesc) metaDesc.setAttribute("content", descripcion);
+      const canonical = document.getElementById("canonical-url");
+      if (canonical) canonical.setAttribute("href", fullUrl);
+
+      // Open Graph
+      const ogTitle = document.getElementById("og-title");
+      if (ogTitle) ogTitle.setAttribute("content", titulo);
+      const ogDesc = document.getElementById("og-description");
+      if (ogDesc) ogDesc.setAttribute("content", descripcion);
+      const ogImage = document.getElementById("og-image");
+      if (ogImage) ogImage.setAttribute("content", fullImageUrl);
+      const ogUrl = document.getElementById("og-url");
+      if (ogUrl) ogUrl.setAttribute("content", fullUrl);
+
+      // Twitter
+      const twTitle = document.getElementById("twitter-title");
+      if (twTitle) twTitle.setAttribute("content", titulo);
+      const twDesc = document.getElementById("twitter-description");
+      if (twDesc) twDesc.setAttribute("content", descripcion);
+      const twImage = document.getElementById("twitter-image");
+      if (twImage) twImage.setAttribute("content", fullImageUrl);
+
+      // Inyección o actualización de JSON-LD estructurado para Article / BlogPosting
+      let scriptLd = document.getElementById("article-schema-jsonld");
+      if (!scriptLd) {
+        scriptLd = document.createElement("script");
+        scriptLd.id = "article-schema-jsonld";
+        scriptLd.type = "application/ld+json";
+        document.head.appendChild(scriptLd);
+      }
+
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": titulo,
+        "description": descripcion,
+        "image": [fullImageUrl],
+        "datePublished": fecha ? new Date(fecha).toISOString() : new Date().toISOString(),
+        "dateModified": fecha ? new Date(fecha).toISOString() : new Date().toISOString(),
+        "author": {
+          "@type": "Person",
+          "name": "Dr. Norman Molina-Maestre",
+          "jobTitle": "Chairman & Fundador",
+          "url": origin
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Abogados Consultores Group",
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${origin}/assets/norman.png`
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": fullUrl
+        },
+        "articleSection": categoria || "Derecho y Doctrina"
+      };
+
+      scriptLd.textContent = JSON.stringify(schemaData, null, 2);
+    }
 
     // Carga de artículos relacionados pertenecientes a la misma categoría
     function cargarArticulosRelacionados(categoriaActual, articuloActualSlug, usuarioGit, repositorioGit, token) {

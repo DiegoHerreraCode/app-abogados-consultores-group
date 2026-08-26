@@ -36,7 +36,7 @@ const content = {
     badge: "ASESORÍA ESTRATÉGICA Y ANÁLISIS ESTRUCTURAL",
     cta: "AGENDAR SESIÓN ESTRATÉGICA",
     ctaSecundario: "ÁREAS DE INTERVENCIÓN",
-    bgImagen: "src/assets/hero-building.jpg" // Add hero bg mapping
+    bgImagen: "/assets/hero-building.jpg"
   },
 
   // ==========================================================
@@ -66,7 +66,7 @@ const content = {
       { icono: "globe", titulo: "DESPLIEGUE OPERATIVO", descripcion: "MÁS DE 300 ESPECIALISTAS EJECUTANDO TÁCTICAS DE ALTA COMPLEJIDAD A NIVEL NACIONAL." },
       { icono: "crosshairs", titulo: "EXACTITUD QUIRÚRGICA", descripcion: "MANIOBRAS LEGALES DISEÑADAS SIN MARGEN DE ERROR PARA ANULAR A LA CONTRAPARTE." }
     ],
-    imagen: "src/assets/norman.png",
+    imagen: "/assets/norman.png",
     experienciaNum: "36",
     experienciaTexto: "AÑOS DE TRAYECTORIA"
   },
@@ -225,7 +225,7 @@ const content = {
         titulo: "Perder para Ganar: La resolución de la paradoja de Protágoras",
         extracto: "Un análisis profundo sobre la Lógica Invertida aplicada a controversias estructurales. Una deconstrucción del clásico dilema histórico para encontrar el punto de quiebre y neutralizar cualquier sistema argumentativo adverso.",
         fecha: "Obra Cumbre",
-        imagen: "src/assets/blog-1.jpg",
+        imagen: "/assets/blog-1.jpg",
         categoria: "LÓGICA Y FILOSOFÍA",
         cta: "Explorar Obra"
       },
@@ -233,7 +233,7 @@ const content = {
         titulo: "Patologías Institucionales: Disfunciones sistémicas en marcos corporativos",
         extracto: "Ensayo crítico sobre las fallas estructurales dentro de los esquemas organizacionales. Una evaluación de cómo las deficiencias en el andamiaje legal provocan el colapso operativo mucho antes de la intervención judicial.",
         fecha: "Investigación",
-        imagen: "src/assets/blog-2.jpg",
+        imagen: "/assets/blog-2.jpg",
         categoria: "INGENIERÍA INSTITUCIONAL",
         cta: "Leer Análisis"
       },
@@ -241,7 +241,7 @@ const content = {
         titulo: "Arquitectura contractual en proyectos de procesamiento de gas licuado",
         extracto: "Evaluación de las vulnerabilidades regulatorias y el blindaje societario requerido para operaciones de alta escala y exportación en el sector energético, garantizando el control patrimonial absoluto.",
         fecha: "Dictamen",
-        imagen: "src/assets/blog-3.jpg",
+        imagen: "/assets/blog-3.jpg",
         categoria: "SECTOR ENERGÉTICO E HIDROCARBUROS",
         cta: "Ver Dictamen"
       }
