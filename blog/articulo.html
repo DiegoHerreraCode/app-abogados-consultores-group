@@ -602,8 +602,12 @@
           // Hero: título y badge categoría/fecha
           document.getElementById("titulo-articulo-hero").textContent = titulo;
           let heroMeta = '';
-          if (categoria) heroMeta += `<span style="display:inline-block; background:var(--color-accent); color:var(--color-white); font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:5px 14px; border-radius:20px; margin-right:10px;">${categoria}</span>`;
-          if (fecha) heroMeta += `<span style="font-size:0.9rem; color:var(--color-text-lighter);"><i class="far fa-calendar-alt" style="margin-right:6px;"></i>${new Date(fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>`;
+          if (categoria || fecha) {
+            heroMeta = `<div style="display:inline-flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:10px;">
+              ${categoria ? `<span style="display:inline-block; background:var(--color-accent); color:var(--color-primary-dark); font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:6px 16px; border-radius:50px;">${categoria}</span>` : ''}
+              ${fecha ? `<span style="font-size:0.85rem; color:var(--color-text-lighter); display:inline-flex; align-items:center; gap:6px;"><i class="far fa-calendar-alt"></i>${new Date(fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>` : ''}
+            </div>`;
+          }
           document.getElementById("categoria-fecha-hero").innerHTML = heroMeta;
 
           // Mostrar contenido, ocultar loading
