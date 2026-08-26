@@ -29,13 +29,22 @@ function initHamburgerMenu() {
     document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
   });
 
-  // Cerrar menú al hacer clic en un enlace de navegación
-  nav.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      nav.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    nav.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Cerrar menú al hacer clic en cualquier enlace o botón dentro de la navegación
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Cerrar menú al hacer clic fuera de la barra de navegación
+  document.addEventListener('click', (e) => {
+    if (nav.classList.contains('open') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+      closeMenu();
+    }
   });
 }
 
