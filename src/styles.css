@@ -1317,10 +1317,17 @@ ul {
   white-space: nowrap;
 }
 
+.btn-text-mobile {
+  display: none;
+}
+
 @media (max-width: 480px) {
   .header-container {
-    padding: 0 12px;
+    padding: 0 10px;
     gap: 6px;
+  }
+  .header-logo-link {
+    max-width: calc(100% - 85px);
   }
   .header-logo-box {
     gap: 6px;
@@ -1329,15 +1336,22 @@ ul {
     font-size: 18px;
   }
   .header-logo-title {
-    font-size: 0.75rem;
+    font-size: clamp(0.72rem, 3.2vw, 0.85rem);
   }
   .header-logo-sub {
-    font-size: 0.55rem;
+    font-size: clamp(0.52rem, 2.2vw, 0.62rem);
   }
   .btn-header-cta {
-    padding: 6px 11px !important;
-    font-size: 0.72rem !important;
+    padding: 6px 12px !important;
+    font-size: 0.75rem !important;
     border-radius: 50px !important;
+    flex-shrink: 0;
+  }
+  .btn-text-desktop {
+    display: none;
+  }
+  .btn-text-mobile {
+    display: inline;
   }
   .btn-nav-cta {
     padding: 8px 12px;
@@ -1588,7 +1602,7 @@ ul {
   width: 100%;
   padding: 14px 16px;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 16px;
   color: var(--color-text);
   background: var(--color-bg);
   border: 2px solid var(--color-border);
@@ -1681,6 +1695,7 @@ ul {
   display: flex;
   gap: 16px;
   margin-bottom: 20px;
+  min-width: 0;
 }
 
 .contacto-info-item:last-child {
@@ -1700,6 +1715,11 @@ ul {
   color: var(--color-accent);
 }
 
+.contacto-info-item div {
+  min-width: 0;
+  flex: 1;
+}
+
 .contacto-info-item strong {
   display: block;
   font-size: 0.85rem;
@@ -1712,6 +1732,8 @@ ul {
   font-size: 0.9rem;
   color: var(--color-text-light);
   line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Redes Sociales */
@@ -1972,7 +1994,10 @@ ul {
   .nav {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: 0;
+    transform: translateX(105%);
+    visibility: hidden;
+    pointer-events: none;
     width: min(340px, 85vw);
     height: 100vh;
     height: 100dvh;
@@ -1982,7 +2007,7 @@ ul {
     align-items: center;
     padding: 85px 24px 40px;
     gap: 20px;
-    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
     box-shadow: -5px 0 30px rgba(0, 0, 0, 0.4);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -1990,7 +2015,9 @@ ul {
   }
 
   .nav.open {
-    right: 0;
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .nav-list {
