@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return res.json();
             })
             .then(async archivos => {
-                console.log(archivos);
                 if (!Array.isArray(archivos)) {
                     console.error("Respuesta inesperada de GitHub:", archivos);
                     contenedor.innerHTML = "<p class='blog-no-results'>No se encontraron artículos en el repositorio.</p>";
