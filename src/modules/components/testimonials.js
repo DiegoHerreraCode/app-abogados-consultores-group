@@ -1,5 +1,5 @@
 /**
- * Componente de Testimonios y Carrusel
+ * Componente de Testimonios y Carrusel de Hitos
  * @module components/testimonials
  */
 import { content } from '../../content.js';
@@ -29,23 +29,31 @@ function renderTestimonials(track, dotsContainer) {
   if (dotsContainer) dotsContainer.innerHTML = '';
 
   content.testimonios.items.forEach((testimonio, index) => {
-    // Generar estrellas de calificación
+    // Generar 5 estrellas
     let estrellas = '';
-    for (let j = 0; j < (testimonio.calificacion || 5); j++) {
-      estrellas += '<i class="fas fa-star"></i>';
+    const rating = testimonio.calificacion || 5;
+    for (let j = 0; j < rating; j++) {
+      estrellas += '<i class="fas fa-star" style="color: var(--color-accent); margin-right: 2px;"></i>';
     }
 
-    // Crear tarjeta de testimonio
+    // Crear tarjeta de hito
     const card = document.createElement('div');
     card.className = 'testimonio-card';
+
+    const hitoTipoHtml = testimonio.tipo ? `<span class="hito-tipo-badge" style="display:inline-block; font-size:0.75rem; font-weight:700; letter-spacing:1px; color:var(--color-accent); text-transform:uppercase; margin-bottom:8px;">${testimonio.tipo}</span>` : '';
+    const hitoTituloHtml = testimonio.tituloHito ? `<h4 class="hito-titulo" style="font-family:var(--font-heading); font-size:1.25rem; color:var(--color-primary); margin-bottom:12px;">${testimonio.tituloHito}</h4>` : '';
+    const hitoLinkHtml = testimonio.link ? `<div style="margin-top:15px;"><a href="${testimonio.link}" class="btn btn-secondary" style="font-size:0.8rem; padding:8px 16px;">${testimonio.linkText || 'Ver Dictamen'} <i class="fas fa-arrow-right" style="margin-left:6px;"></i></a></div>` : '';
+
     card.innerHTML = `
       <div class="testimonio-content">
-        <div class="testimonio-estrellas">${estrellas}</div>
-        <p class="testimonio-texto">"${testimonio.texto}"</p>
-        <div class="testimonio-autor">
-          <strong>${testimonio.nombre}</strong>
-          <span>${testimonio.cargo}</span>
+        <div class="testimonio-estrellas" style="margin-bottom: 12px;">${estrellas}</div>
+        ${hitoTipoHtml}
+        ${hitoTituloHtml}
+        <p class="testimonio-texto" style="font-style: italic; margin-bottom: 15px;">${testimonio.texto}</p>
+        <div class="testimonio-autor" style="margin-top: 10px;">
+          <span style="font-weight: 700; color: var(--color-primary); font-size: 0.9rem;">${testimonio.autor || ''}</span>
         </div>
+        ${hitoLinkHtml}
       </div>
     `;
     track.appendChild(card);
@@ -54,7 +62,7 @@ function renderTestimonials(track, dotsContainer) {
     if (dotsContainer) {
       const dot = document.createElement('button');
       dot.className = `dot ${index === 0 ? 'active' : ''}`;
-      dot.setAttribute('aria-label', `Testimonio ${index + 1}`);
+      dot.setAttribute('aria-label', `Hito ${index + 1}`);
       dot.addEventListener('click', () => goToTestimonio(index));
       dotsContainer.appendChild(dot);
     }
@@ -80,49 +88,54 @@ export function goToTestimonio(index) {
   testimoniosTrack.style.transform = `translateX(-${index * 100}%)`;
 
   if (testimoniosDots) {
-    testimoniosDots.querySelectorAll('.dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
+    testimoniosDots.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
     });
   }
 }
 
-export function nextTestimonio() {
-  goToTestimonio(testimonioIndex + 1);
-}
+/**
+ * Configura los eventos de los botones anterior y siguiente del carrusel
+ */
+function setupCarouselControls() {
+  const prevBtn = document.querySelector('.testimonio-btn-prev');
+  const nextBtn = document.querySelector('.testimonio-btn-next');
 
-export function prevTestimonio() {
-  goToTestimonio(testimonioIndex - 1);
-}
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      stopTestimonioAuto();
+      goToTestimonio(testimonioIndex - 1);
+      startTestimonioAuto();
+    });
+  }
 
-export function startTestimonioAuto() {
-  stopTestimonioAuto();
-  testimonioInterval = setInterval(nextTestimonio, 5000);
-}
-
-export function stopTestimonioAuto() {
-  if (testimonioInterval) {
-    clearInterval(testimonioInterval);
-    testimonioInterval = null;
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      stopTestimonioAuto();
+      goToTestimonio(testimonioIndex + 1);
+      startTestimonioAuto();
+    });
   }
 }
 
 /**
- * Asigna los eventos a los botones de navegación y pausa en hover
+ * Inicia la rotación automática del carrusel cada 6 segundos
  */
-function setupCarouselControls() {
-  document.querySelector('.testimonio-btn-next')?.addEventListener('click', () => {
-    nextTestimonio();
-    startTestimonioAuto();
-  });
+function startTestimonioAuto() {
+  stopTestimonioAuto();
+  testimonioInterval = setInterval(() => {
+    goToTestimonio(testimonioIndex + 1);
+  }, 6000);
+}
 
-  document.querySelector('.testimonio-btn-prev')?.addEventListener('click', () => {
-    prevTestimonio();
-    startTestimonioAuto();
-  });
-
-  const carrusel = document.querySelector('.testimonios-carrusel');
-  carrusel?.addEventListener('mouseenter', stopTestimonioAuto);
-  carrusel?.addEventListener('mouseleave', startTestimonioAuto);
+/**
+ * Detiene la reproducción automática del carrusel
+ */
+function stopTestimonioAuto() {
+  if (testimonioInterval) {
+    clearInterval(testimonioInterval);
+    testimonioInterval = null;
+  }
 }
 
 export default initTestimonials;

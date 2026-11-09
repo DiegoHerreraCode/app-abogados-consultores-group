@@ -16,6 +16,7 @@ export function initContentInjection() {
   injectSectionHeaders();
   injectAreas();
   injectPorQue();
+  injectLegitimacionArticle();
   injectContactInfo();
   injectFooter();
   injectWhatsAppFloat();
@@ -25,6 +26,11 @@ export function initContentInjection() {
  * Inyección de la barra de navegación
  */
 function injectNavigation() {
+  const navLogo = document.getElementById('navLogo');
+  if (navLogo && content.nav?.logo) {
+    navLogo.innerHTML = content.nav.logo;
+  }
+
   const navList = document.getElementById('navList');
   if (navList && content.nav?.links) {
     navList.innerHTML = '';
@@ -49,10 +55,18 @@ function injectHero() {
   if (heroBadge && content.hero?.badge) heroBadge.textContent = content.hero.badge;
 
   const heroTitle = document.getElementById('heroTitle');
-  if (heroTitle && content.hero?.titulo) heroTitle.innerHTML = content.hero.titulo;
+  if (heroTitle && content.hero?.titulo) {
+    heroTitle.innerHTML = `
+      <span class="hero-title-main">${content.hero.titulo}</span>
+      <hr class="hero-title-line">
+      <span class="hero-title-sub">${content.hero.subtituloHero || ''}</span>
+    `;
+  }
 
   const heroSubtitle = document.getElementById('heroSubtitle');
-  if (heroSubtitle && content.hero?.subtitulo) heroSubtitle.textContent = content.hero.subtitulo;
+  if (heroSubtitle && content.hero?.subtitulo) {
+    heroSubtitle.innerHTML = content.hero.subtitulo;
+  }
 
   const heroCta1 = document.getElementById('heroCta1');
   if (heroCta1 && content.hero?.cta) heroCta1.textContent = content.hero.cta;
@@ -92,8 +106,50 @@ function injectSobreMi() {
   if (sobreMiCargo && sm.cargo) sobreMiCargo.textContent = sm.cargo;
 
   const sobreMiDesc = document.getElementById('sobreMiDesc');
-  if (sobreMiDesc && Array.isArray(sm.descripcion)) {
-    sobreMiDesc.innerHTML = sm.descripcion.map(p => `<p class="sobre-mi-desc">${p}</p>`).join('');
+  if (sobreMiDesc) {
+    let html = '';
+
+    // 2.1 Bloque PERFIL CORPORATIVO
+    if (sm.perfilCorporativo) {
+      const pc = sm.perfilCorporativo;
+      html += `
+        <div class="bloque-perfil-corporativo">
+          <h3 class="perfil-corp-titulo">${pc.titulo}</h3>
+          ${(pc.parrafos || []).map(p => `<p class="sobre-mi-desc">${p}</p>`).join('')}
+          <div class="puntos-clave-firma">
+            <h4>${pc.puntosClaveTitulo}</h4>
+            <ul class="puntos-clave-lista">
+              ${(pc.puntosClave || []).map(pt => `<li><strong>• ${pt.label}:</strong> ${pt.texto}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    // CITA DESTACADA (pull quote)
+    if (sm.citaDestacada) {
+      const cd = sm.citaDestacada;
+      html += `
+        <div class="cita-destacada-box">
+          <blockquote class="pull-quote">${cd.texto}</blockquote>
+          <div class="cita-firma-autor">${cd.autor}</div>
+          <div class="cita-firma-cargo">${cd.cargo}</div>
+        </div>
+      `;
+    }
+
+    // 2.2 Biografía del Director
+    if (sm.biografia) {
+      const bio = sm.biografia;
+      html += `
+        <div class="bloque-biografia">
+          <h3 class="biografia-titulo">${bio.titulo}</h3>
+          ${(bio.parrafos || []).map(p => `<p class="sobre-mi-desc">${p}</p>`).join('')}
+        </div>
+      `;
+    }
+
+    sobreMiDesc.innerHTML = html;
   }
 
   const sobreMiValores = document.getElementById('sobreMiValores');
@@ -137,7 +193,7 @@ function injectSectionHeaders() {
 }
 
 /**
- * Inyección de las tarjetas de Áreas de Práctica
+ * Inyección de las tarjetas de Áreas de Práctica (Títulos en versalitas, chips en mayúsculas a la izquierda)
  */
 function injectAreas() {
   const areasGrid = document.getElementById('areasGrid');
@@ -151,7 +207,7 @@ function injectAreas() {
       <div class="area-card-icon">
         <i class="fas fa-${area.icono}"></i>
       </div>
-      <h3>${area.titulo}</h3>
+      <h3 class="area-card-title">${area.titulo}</h3>
       <p>${area.descripcion}</p>
       <div class="area-card-caracteristicas">
         ${(area.caracteristicas || []).map(c => `<span>${c}</span>`).join('')}
@@ -162,7 +218,7 @@ function injectAreas() {
 }
 
 /**
- * Inyección de las tarjetas de "Por Qué Elegirnos"
+ * Inyección de las tarjetas de "Por Qué Elegirnos" / Estrategia y Ejecución
  */
 function injectPorQue() {
   const porQueGrid = document.getElementById('porQueGrid');
@@ -181,6 +237,138 @@ function injectPorQue() {
     `;
     porQueGrid.appendChild(card);
   });
+}
+
+/**
+ * Inyección y lógica del Artículo Interactivo de 4 Ventanas: Legitimación de Capitales
+ */
+function injectLegitimacionArticle() {
+  const container = document.getElementById('articuloLegitimacionContainer');
+  if (!container || !content.articuloLegitimacion) return;
+
+  const data = content.articuloLegitimacion;
+  const f = data.ficha;
+
+  let tabsNavHtml = '';
+  let tabsContentHtml = '';
+
+  data.pestanas.forEach((tab, idx) => {
+    const isActive = idx === 0;
+    tabsNavHtml += `
+      <button class="legit-tab-btn ${isActive ? 'active' : ''}" data-target="${tab.id}">
+        ${tab.tituloBoton}
+      </button>
+    `;
+
+    let puntosHtml = '';
+    if (tab.puntos) {
+      puntosHtml = `<div class="legit-points-list">` + tab.puntos.map(pt => `
+        <div class="legit-point-item">
+          <span class="point-bullet">${pt.num}.</span>
+          <div class="point-text">
+            <strong>${pt.titulo}:</strong> ${pt.texto}
+          </div>
+        </div>
+      `).join('') + `</div>`;
+    }
+
+    tabsContentHtml += `
+      <div class="legit-tab-pane ${isActive ? 'active' : ''}" id="${tab.id}">
+        <h3 class="legit-pane-title">${tab.titulo}</h3>
+        <p class="legit-pane-subtitle">${tab.subtitulo}</p>
+        
+        <blockquote class="legit-pull-quote">
+          <i class="fas fa-quote-left"></i>
+          <span>${tab.pullQuote}</span>
+        </blockquote>
+
+        <p class="legit-pane-intro">${tab.intro}</p>
+        ${puntosHtml}
+        ${tab.extra ? `<div class="legit-pane-extra">${tab.extra}</div>` : ''}
+        ${tab.conclusion ? `
+          <div class="legit-conclusion-box">
+            <strong>Conclusión del Bloque:</strong> ${tab.conclusion}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <!-- Ficha de catalogación -->
+    <div class="legit-catalog-card">
+      <div class="catalog-header">
+        <span class="catalog-badge">FICHA DOCTRINAL</span>
+        <h3>${f.titulo}</h3>
+        <p class="catalog-subtitle">${f.subtitulo}</p>
+      </div>
+      <div class="catalog-grid">
+        <div class="catalog-item">
+          <strong>Autor:</strong>
+          <span>${f.autor}</span>
+        </div>
+        <div class="catalog-item">
+          <strong>Área Dogmática:</strong>
+          <span>${f.areaDogmatica}</span>
+        </div>
+        <div class="catalog-item">
+          <strong>Línea de Investigación:</strong>
+          <span>${f.lineaInvestigacion}</span>
+        </div>
+        <div class="catalog-item">
+          <strong>Fecha de Emisión:</strong>
+          <span>${f.fechaEmision}</span>
+        </div>
+      </div>
+      <blockquote class="catalog-quote">
+        ${f.citaApertura}
+      </blockquote>
+    </div>
+
+    <!-- Navegación de pestañas (4 ventanas) -->
+    <div class="legit-tabs-nav" id="legitTabsNav">
+      ${tabsNavHtml}
+    </div>
+
+    <!-- Contenido de las pestañas -->
+    <div class="legit-tabs-body">
+      ${tabsContentHtml}
+    </div>
+
+    <!-- Botón de descarga PDF -->
+    <div class="legit-download-action">
+      <a href="${data.pdfDownloadUrl}" class="btn btn-primary btn-download-pdf" id="btnDescargarPdfLegit">
+        <i class="fas fa-file-pdf"></i>
+        <span>Descargar Dictamen Doctrinal Completo en PDF</span>
+      </a>
+      <p class="pdf-notice-text">El archivo original del dictamen se distribuye bajo estrictos protocolos de fidelidad documental.</p>
+    </div>
+  `;
+
+  // Event listeners para pestañas
+  const tabButtons = container.querySelectorAll('.legit-tab-btn');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+
+      container.querySelectorAll('.legit-tab-btn').forEach(b => b.classList.remove('active'));
+      container.querySelectorAll('.legit-tab-pane').forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) targetPane.classList.add('active');
+    });
+  });
+
+  const btnPdf = document.getElementById('btnDescargarPdfLegit');
+  if (btnPdf) {
+    btnPdf.addEventListener('click', (e) => {
+      if (btnPdf.getAttribute('href') === '#') {
+        e.preventDefault();
+        alert('El archivo PDF completo del artículo de Legitimación de Capitales estará disponible para descarga en breve tras su recepción por correo.');
+      }
+    });
+  }
 }
 
 /**
@@ -214,10 +402,11 @@ function injectContactInfo() {
   const infoCard = document.getElementById('contactoInfoCard');
   if (infoCard && c.datos) {
     infoCard.innerHTML = `
-      <h4>Información de Contacto</h4>
+      <h4>Datos de Contacto</h4>
       <div class="contacto-info-item"><i class="fas fa-map-marker-alt"></i><div><strong>Dirección</strong><p>${c.datos.direccion || ''}</p></div></div>
-      <div class="contacto-info-item"><i class="fas fa-phone"></i><div><strong>Teléfonos</strong><p>${c.datos.telefono || ''}</p></div></div>
-      <div class="contacto-info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p>${c.datos.email || ''}</p></div></div>
+      <div class="contacto-info-item"><i class="fas fa-globe"></i><div><strong>Web</strong><p><a href="https://${c.datos.web || 'www.abogadosconsultores.group'}" target="_blank" rel="noopener noreferrer">${c.datos.web || 'www.abogadosconsultores.group'}</a></p></div></div>
+      <div class="contacto-info-item"><i class="fas fa-phone"></i><div><strong>Teléfonos y WhatsApp</strong><p>${c.datos.telefono || ''}</p></div></div>
+      <div class="contacto-info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p><a href="mailto:${c.datos.email || ''}">${c.datos.email || ''}</a></p></div></div>
       <div class="contacto-info-item"><i class="fas fa-clock"></i><div><strong>Horario</strong><p>${c.datos.horario || ''}</p></div></div>
     `;
   }
@@ -236,8 +425,34 @@ function injectFooter() {
   const f = content.footer;
   if (!f) return;
 
-  const footerDesc = document.getElementById('footerDesc');
-  if (footerDesc && f.descripcion) footerDesc.textContent = f.descripcion;
+  const footerBrand = document.querySelector('.footer-brand');
+  if (footerBrand) {
+    footerBrand.innerHTML = `
+      <a href="#hero" class="footer-logo">
+        <div style="display: flex; align-items: center; gap: 12px; line-height: 1.2;">
+          <img src="/assets/law-firm-logo.svg" alt="LAW FIRM LOGO" style="width: 46px; height: 46px; object-fit: contain; border-radius: 4px;">
+          <div>
+            <span style="font-variant: small-caps; font-size: 1rem; font-weight: 700; color: var(--color-white); display: block; letter-spacing: 0.5px;">
+              ${f.identidadTitulo || 'ABOGADOS CONSULTORES GROUP'}
+            </span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; display: block; margin-top: 2px; letter-spacing: 1px;">
+              BOUTIQUE LEGAL KIBS
+            </span>
+            <span style="font-size: 0.65rem; color: #94a3b8; letter-spacing: 0.5px; display: block;">
+              (KNOWLEDGE INTENSIVE BUSINESS SERVICES)
+            </span>
+            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 0.7rem; font-weight: 700; color: #cbd5e1; text-transform: uppercase; display: block; margin-top: 4px; letter-spacing: 0.8px;">
+              ${f.identidadSubtitulo || 'DIRECCIÓN ESTRATÉGICA CENTRAL'}
+            </span>
+          </div>
+        </div>
+      </a>
+      <p class="footer-desc" id="footerDesc" style="margin-top: 15px; font-size: 0.88rem; line-height: 1.6; color: #cbd5e1;">
+        ${f.descripcion || 'Consultoría estratégica de élite orientada a la protección patrimonial, la estructuración de negocios y la resolución de controversias de alta complejidad.'}
+      </p>
+      <div class="footer-sociales" id="footerSociales"></div>
+    `;
+  }
 
   const footerSociales = document.getElementById('footerSociales');
   if (footerSociales && content.contacto?.sociales) {
@@ -245,21 +460,21 @@ function injectFooter() {
   }
 
   const footerLinksNav = document.getElementById('footerLinksNav');
-  if (footerLinksNav && content.nav?.links) {
+  if (footerLinksNav && f.enlacesRapidos) {
     footerLinksNav.innerHTML = `
       <h4>Enlaces Rápidos</h4>
       <ul>
-        ${content.nav.links.slice(0, 6).map(link => `<li><a href="${link.href}">${link.label}</a></li>`).join('')}
+        ${f.enlacesRapidos.map(link => `<li><a href="${link.href}">${link.label}</a></li>`).join('')}
       </ul>
     `;
   }
 
   const footerLinksServices = document.getElementById('footerLinksServices');
-  if (footerLinksServices && content.areas?.items) {
+  if (footerLinksServices && f.servicios) {
     footerLinksServices.innerHTML = `
       <h4>Servicios</h4>
       <ul>
-        ${content.areas.items.map(area => `<li><a href="#areas">${area.titulo}</a></li>`).join('')}
+        ${f.servicios.map(area => `<li><a href="${area.href}">${area.label}</a></li>`).join('')}
       </ul>
     `;
   }
@@ -302,11 +517,18 @@ function injectWhatsAppFloat() {
  * @returns {string}
  */
 function renderSocialIcons(sociales) {
-  return Object.entries(sociales).map(([key, data]) => `
-    <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="social-icon ${key}" aria-label="${data.label}">
-      <i class="fab fa-${key === 'twitter' ? 'x-twitter' : key}${key === 'facebook' ? '-f' : ''}"></i>
-    </a>
-  `).join('');
+  return Object.entries(sociales).map(([key, data]) => {
+    let iconClass = key;
+    if (key === 'twitter') iconClass = 'x-twitter';
+    else if (key === 'facebook') iconClass = 'facebook-f';
+    else if (key === 'tiktok') iconClass = 'tiktok';
+
+    return `
+      <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="social-icon ${key}" aria-label="${data.label}">
+        <i class="fab fa-${iconClass}"></i>
+      </a>
+    `;
+  }).join('');
 }
 
 export default initContentInjection;

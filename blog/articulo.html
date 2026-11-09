@@ -41,8 +41,7 @@
   <link rel="stylesheet" href="../src/styles.css">
 
   <!-- Favicon SVG inline -->
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="/assets/law-firm-logo.svg">
 
   <!-- Librería para convertir Markdown a HTML -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -273,16 +272,20 @@
   <header class="header" id="header">
     <div class="container header-container">
       <a href="/" class="logo header-logo-link" id="navLogo">
-        <div class="header-logo-box">
-          <i class="fas fa-scale-balanced header-logo-icon"></i>
-          <div class="header-logo-text">
-            <span class="header-logo-title">Dr. Norman Molina</span>
-            <span class="header-logo-sub">Consultores Group</span>
+        <div style="display: flex; align-items: center; gap: 12px; line-height: 1.2;">
+          <img src="/assets/law-firm-logo.svg" alt="LAW FIRM LOGO" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px;">
+          <div>
+            <span style="font-variant: small-caps; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; color: var(--color-accent); display: block;">
+              Firma Boutique Legal KIBS
+            </span>
+            <span style="font-size: 0.95rem; font-weight: 700; color: var(--color-white); display: block;">
+              Abogados Consultores Group
+            </span>
           </div>
         </div>
       </a>
       <a href="#contacto" class="btn btn-header-cta">
-        <span class="btn-text-desktop">Agendar Consulta</span>
+        <span class="btn-text-desktop">Solicitar Consulta Estratégica</span>
         <span class="btn-text-mobile">Consulta</span>
       </a>
     </div>
@@ -448,30 +451,42 @@
 
   <footer class="footer">
     <div class="container">
-      <div class="footer-grid" style="grid-template-columns:1fr;">
-        <div class="footer-brand" style="text-align:center;">
+      <div class="footer-grid" id="footerGrid">
+        <div class="footer-brand">
           <a href="/" class="footer-logo">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; line-height: 1.2;">
-              <i class="fas fa-scale-balanced" style="font-size: 28px; color: var(--color-accent);"></i>
-              <div style="text-align: left;">
-                <span style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; color: var(--color-white); display: block;">
-                  Dr. Norman Molina Maestre
+            <div style="display: flex; align-items: center; gap: 12px; line-height: 1.2;">
+              <img src="/assets/law-firm-logo.svg" alt="LAW FIRM LOGO" style="width: 46px; height: 46px; object-fit: contain; border-radius: 4px;">
+              <div>
+                <span style="font-variant: small-caps; font-size: 1rem; font-weight: 700; color: var(--color-white); display: block; letter-spacing: 0.5px;">
+                  ABOGADOS CONSULTORES GROUP
                 </span>
-                <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; display: block; margin-top: 2px;">
-                  Dirección Estratégica Central
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; display: block; margin-top: 2px; letter-spacing: 1px;">
+                  BOUTIQUE LEGAL KIBS
+                </span>
+                <span style="font-size: 0.65rem; color: #94a3b8; letter-spacing: 0.5px; display: block;">
+                  (KNOWLEDGE INTENSIVE BUSINESS SERVICES)
+                </span>
+                <span style="font-family: Arial, Helvetica, sans-serif; font-size: 0.7rem; font-weight: 700; color: #cbd5e1; text-transform: uppercase; display: block; margin-top: 4px; letter-spacing: 0.8px;">
+                  DIRECCIÓN ESTRATÉGICA CENTRAL
                 </span>
               </div>
             </div>
           </a>
-          <p class="footer-desc" id="footerDesc" style="margin-top: 15px;"></p>
-          <div class="footer-sociales" id="footerSociales" style="justify-content:center;"></div>
+          <p class="footer-desc" id="footerDesc" style="margin-top: 15px; font-size: 0.88rem; line-height: 1.6; color: #cbd5e1;"></p>
+          <div class="footer-sociales" id="footerSociales"></div>
         </div>
+        <div class="footer-links" id="footerLinksNav"></div>
+        <div class="footer-links" id="footerLinksServices"></div>
+        <div class="footer-links" id="footerLinksLegal"></div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2026 Dr. Norman Molina - Abogados. Todos los derechos reservados.</p>
+        <p id="footerCopyright">&copy; 2026 www.abogadosconsultores.group - Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
+
+  <!-- Widget de chat con IA (asistente Óscar / iAsiste) -->
+  <script src="https://www.iasiste.com/api/v1/widget/boot.js" data-client-id="46" data-color="#06B6D4"></script>
 
   <script type="module">
     import { content } from '../src/content.js';

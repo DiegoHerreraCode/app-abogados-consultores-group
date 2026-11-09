@@ -46,8 +46,7 @@
   <link rel="stylesheet" href="src/styles.css">
 
   <!-- Favicon SVG inline -->
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="/assets/law-firm-logo.svg">
 
   <!-- JSON-LD Datos Estructurados (LegalService / LocalBusiness) -->
   <script type="application/ld+json">
@@ -287,6 +286,15 @@
   </section>
 
   <!-- ============================================================
+  SECCIÓN 7B: ARTÍCULO 4 VENTANAS (LEGITIMACIÓN DE CAPITALES)
+  ============================================================ -->
+  <section class="section seccion-legitimacion" id="seccion-legitimacion">
+    <div class="container" id="articuloLegitimacionContainer">
+      <!-- Se inyecta dinámicamente con las 4 pestañas y ficha de catalogación -->
+    </div>
+  </section>
+
+  <!-- ============================================================
   CONTACTO
   ============================================================ -->
   <section class="section contacto" id="contacto">
@@ -400,6 +408,8 @@
   <script src="src/app.js" type="module"></script>
   <script src="src/blog.js" type="module"></script>
 
+  <!-- Widget de chat con IA (asistente Óscar / iAsiste) -->
+  <script src="https://www.iasiste.com/api/v1/widget/boot.js" data-client-id="46" data-color="#06B6D4"></script>
 </body>
 
 </html>

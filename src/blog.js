@@ -18,21 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let paginaActual = 1;
     const articulosPorPagina = 6;
 
-    // Inicializar la carga de artículos
+    // Inicializar la carga dinámica desde el repositorio de GitHub
     inicializarBlog();
 
     function inicializarBlog() {
         contenedor.innerHTML = "<p class='blog-no-results'>Cargando artículos...</p>";
 
-        fetch(apiUrl, {
-            headers: {
-                'Authorization': `token ${tokenGit}`
-            }
-        })
+        const headers = tokenGit ? { 'Authorization': `token ${tokenGit}` } : {};
+
+        fetch(apiUrl, { headers })
             .then(res => {
                 if (!res.ok) {
                     return res.json().then(errData => {
-                        throw new Error(`GitHub API error ${res.status}: ${errData.message}`);
+                        throw new Error(`GitHub API error ${res.status}: ${errData.message || res.statusText}`);
                     });
                 }
                 return res.json();
@@ -44,22 +42,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                // Filtrar solo archivos .md
+                // Filtrar exclusivamente archivos .md existentes en el repositorio
                 const archivosMd = archivos.filter(archivo => archivo.name && archivo.name.endsWith('.md'));
 
                 if (archivosMd.length === 0) {
-                    contenedor.innerHTML = "<p class='blog-no-results'>Próximamente publicaremos nuestros primeros artículos legales.</p>";
+                    contenedor.innerHTML = "<p class='blog-no-results'>No hay artículos publicados en este momento.</p>";
                     return;
                 }
 
                 // Descargar el contenido de todos los archivos .md en paralelo
                 const promesasCarga = archivosMd.map(archivo => {
                     const slug = archivo.name.replace('.md', '');
-                    return fetch(`https://api.github.com/repos/${usuarioGit}/${repositorioGit}/contents/blog/${archivo.name}`, {
-                        headers: {
-                            'Authorization': `token ${tokenGit}`
-                        }
-                    })
+                    return fetch(`https://api.github.com/repos/${usuarioGit}/${repositorioGit}/contents/blog/${archivo.name}`, { headers })
                         .then(response => {
                             if (!response.ok) throw new Error(`Error descargando ${archivo.name}`);
                             return response.json();
@@ -68,29 +62,36 @@ document.addEventListener("DOMContentLoaded", () => {
                             const textoMarkdown = decodeURIComponent(escape(atob(data.content)));
                             const datos = parsearMarkdown(textoMarkdown);
 
-                            // Intentar extraer una fecha para ordenar. 
-                            // Puede ser del frontmatter (datos.date) o del nombre del archivo si tiene formato YYYY-MM-DD-nombre.md
+                            // Extraer fecha para ordenamiento
                             let fechaOriginal = datos.date || "";
                             let fechaObj = new Date();
 
                             if (fechaOriginal) {
                                 fechaObj = new Date(fechaOriginal);
                             } else {
-                                // Tratar de buscar fecha en el nombre del archivo (ej. 2026-06-11-...)
                                 const matchFecha = archivo.name.match(/^(\d{4}-\d{2}-\d{2})/);
                                 if (matchFecha) {
                                     fechaObj = new Date(matchFecha[1]);
                                 }
                             }
 
+                            let fechaLegible = fechaOriginal;
+                            if (fechaObj && !isNaN(fechaObj.getTime())) {
+                                fechaLegible = fechaObj.toLocaleDateString('es-ES', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'
+                                });
+                            }
+
                             return {
                                 slug: slug,
                                 filename: archivo.name,
-                                title: datos.title || "Artículo Legal",
-                                description: datos.description || "Haga clic en leer más para ver el contenido completo.",
-                                category: datos.category || "General",
-                                image: datos.image || "/images/blog-placeholder.jpg",
-                                date: fechaOriginal || fechaObj.toISOString().split('T')[0],
+                                title: datos.title || "Artículo Doctrinal",
+                                description: datos.description || "Haga clic en leer más para consultar el análisis legal completo.",
+                                category: datos.category || "Doctrina",
+                                image: datos.image || "/images/uploads/socios.jpg",
+                                date: fechaLegible,
                                 dateObj: fechaObj,
                                 textoCompleto: textoMarkdown
                             };
@@ -102,7 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 const resultados = await Promise.all(promesasCarga);
-                // Filtrar errores (nulos) y ordenar por fecha de forma descendente (más nuevos primero)
+
+                // Filtrar nulos y ordenar estrictamente por fecha descendente (más recientes primero)
                 todosLosArticulos = resultados
                     .filter(art => art !== null)
                     .sort((a, b) => b.dateObj - a.dateObj);
@@ -112,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(err => {
                 console.error("Error consultando GitHub:", err);
-                contenedor.innerHTML = `<p class='blog-no-results'>Error al cargar los artículos: ${err.message}</p>`;
+                contenedor.innerHTML = `<p class='blog-no-results'>Error al cargar los artículos del repositorio: ${err.message}</p>`;
             });
     }
 
@@ -121,9 +123,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         inputBusqueda.addEventListener("input", (e) => {
             queryBusqueda = normalizarTexto(e.target.value);
-            paginaActual = 1; // Volver a la primera página al buscar
+            paginaActual = 1;
             actualizarVista();
         });
+    }
+
+    function normalizarTexto(texto) {
+        if (!texto) return "";
+        return texto
+            .toLowerCase()
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
     }
 
     function obtenerArticulosFiltrados() {
@@ -134,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 normalizarTexto(art.title).includes(queryBusqueda) ||
                 normalizarTexto(art.description).includes(queryBusqueda) ||
                 normalizarTexto(art.category).includes(queryBusqueda) ||
-                normalizarTexto(art.textoCompleto).includes(queryBusqueda)
+                (art.textoCompleto && normalizarTexto(art.textoCompleto).includes(queryBusqueda))
             );
         });
     }
@@ -147,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Paginación: obtener solo el rango correspondiente
         const indiceInicio = (paginaActual - 1) * articulosPorPagina;
         const indiceFin = indiceInicio + articulosPorPagina;
         const articulosPagina = articulos.slice(indiceInicio, indiceFin);
@@ -155,24 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
         articulosPagina.forEach((art, index) => {
             const card = document.createElement("div");
             card.className = 'blog-card fade-in-entry';
-            card.style.animationDelay = `${index * 100}ms`; // Delay escalonado de 100ms entre artículos
-
-            let fechaFormateada = art.dateObj ? art.dateObj.toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            }) : '';
+            card.style.animationDelay = `${index * 80}ms`;
 
             card.innerHTML = `
                 <div class="blog-card-img">
-                    <img src="${art.image}" alt="${art.title}" loading="lazy">
+                    <img src="${art.image}" alt="${art.title}" loading="lazy" onerror="this.src='/images/uploads/socios.jpg'">
                 </div>
                 <div class="blog-card-body">
                     <span class="blog-card-categoria">${art.category}</span>
                     <h3>${art.title}</h3>
                     <p>${art.description}</p>
                     <div class="blog-card-footer">
-                        <span class="blog-card-fecha"><i class="far fa-calendar-alt"></i> ${fechaFormateada}</span>
+                        <span class="blog-card-fecha"><i class="far fa-calendar-alt"></i> ${art.date}</span>
                         <a href="/blog/articulo.html?id=${art.slug}" class="blog-card-link" target="_blank">Leer más <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -187,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const totalPaginas = Math.ceil(totalArticulos / articulosPorPagina);
 
-        // Si no hay páginas o es solo 1 página, ocultamos los controles
         if (totalPaginas <= 1) {
             contenedorPaginacion.style.display = "none";
             return;
@@ -195,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         contenedorPaginacion.style.display = "flex";
 
-        // Botón Anterior
         const btnAnterior = document.createElement("button");
         btnAnterior.className = "blog-pagination-btn";
         btnAnterior.innerHTML = '<i class="fas fa-chevron-left"></i>';
@@ -209,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         contenedorPaginacion.appendChild(btnAnterior);
 
-        // Números de páginas
         for (let i = 1; i <= totalPaginas; i++) {
             const btnPagina = document.createElement("button");
             btnPagina.className = `blog-pagination-btn ${paginaActual === i ? 'active' : ''}`;
@@ -224,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedorPaginacion.appendChild(btnPagina);
         }
 
-        // Botón Siguiente
         const btnSiguiente = document.createElement("button");
         btnSiguiente.className = "blog-pagination-btn";
         btnSiguiente.innerHTML = '<i class="fas fa-chevron-right"></i>';
@@ -242,29 +242,23 @@ document.addEventListener("DOMContentLoaded", () => {
     function hacerScrollAlBlog() {
         const seccionBlog = document.getElementById("blog");
         if (seccionBlog) {
-            // Altura aproximada del header fijo para evitar que tape el contenido
             const headerHeight = 90;
             const elementoPos = seccionBlog.getBoundingClientRect().top + window.scrollY;
-            const offsetPos = elementoPos - headerHeight;
-
             window.scrollTo({
-                top: offsetPos,
+                top: elementoPos - headerHeight,
                 behavior: 'smooth'
             });
         }
     }
 
     function actualizarVista(resetearPagina = false) {
-        if (resetearPagina) {
-            paginaActual = 1;
-        }
+        if (resetearPagina) paginaActual = 1;
         const filtrados = obtenerArticulosFiltrados();
         renderizarArticulos(filtrados);
         renderizarPaginacion(filtrados.length);
     }
 });
 
-// Función indispensable para que el script pueda leer las cabeceras de los archivos .md
 function parsearMarkdown(texto) {
     const lineas = texto.split("\n");
     const metadatos = {};
@@ -279,14 +273,4 @@ function parsearMarkdown(texto) {
         }
     });
     return metadatos;
-}
-
-// Remueve mayúsculas, espacios extra y tildes/diacríticos de un texto para facilitar la búsqueda
-function normalizarTexto(texto) {
-    if (!texto) return "";
-    return texto
-        .toLowerCase()
-        .trim()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
 }

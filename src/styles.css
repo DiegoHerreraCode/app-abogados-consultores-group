@@ -332,7 +332,7 @@ ul {
 .whatsapp-float {
   position: fixed;
   bottom: 25px;
-  right: 25px;
+  right: 95px; /* Desplazado a la izquierda para convivir armoniosamente con el widget de chat IA */
   z-index: 999;
   display: flex;
   align-items: center;
@@ -414,13 +414,36 @@ ul {
 }
 
 .hero-title {
-  font-family: var(--font-heading);
-  font-size: 3.2rem;
-  /* Ajustado de 3.5rem para evitar saltos de linea indeseados */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-variant: small-caps;
+  font-size: 2.3rem; /* Reducido de 3.2rem por solicitud del cliente */
   font-weight: 700;
   color: var(--color-white);
   line-height: 1.3;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
+  letter-spacing: 1.5px;
+}
+
+.hero-title-main {
+  display: block;
+}
+
+.hero-title-line {
+  border: none;
+  border-top: 1px solid var(--color-accent);
+  width: 140px;
+  margin: 14px auto 14px auto;
+  opacity: 0.85;
+}
+
+.hero-title-sub {
+  display: block;
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--color-accent);
+  letter-spacing: 1px;
 }
 
 .hero-title-highlight {
@@ -690,11 +713,14 @@ ul {
   transition: var(--transition);
 }
 
-.area-card h3 {
+.area-card h3,
+.area-card-title {
   font-family: var(--font-heading);
+  font-variant: small-caps;
   font-size: 1.3rem;
   color: var(--color-primary);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
 }
 
 .area-card p {
@@ -703,27 +729,32 @@ ul {
   line-height: 1.7;
   margin-bottom: 16px;
   text-align: justify;
-  /* Justificado como solicito el cliente */
 }
 
 .area-card-caracteristicas {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: flex-start; /* Alineadas a la izquierda como banderas */
 }
 
 .area-card-caracteristicas span {
-  font-size: 0.75rem;
-  background: var(--color-bg);
-  color: var(--color-text-light);
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-weight: 600;
+  font-size: 0.72rem;
+  background: #e9ecef; /* Chip gris */
+  color: #343a40;
+  padding: 4px 10px;
+  border-radius: 4px; /* Formato bandera/chip */
+  font-weight: 700;
+  text-transform: uppercase; /* MAYÚSCULAS */
+  text-align: left;
+  letter-spacing: 0.5px;
+  border-left: 3px solid var(--color-accent);
   transition: var(--transition);
 }
 
 .area-card:hover .area-card-caracteristicas span {
-  background: var(--color-bg-alt);
+  background: #dee2e6;
+  color: var(--color-primary);
 }
 
 /* ============================================================
@@ -1557,7 +1588,8 @@ ul {
    CONTACTO
    ============================================================ */
 .contacto {
-  background: var(--color-bg);
+  background: var(--color-white);
+  border-top: 1px solid var(--color-border);
 }
 
 .contacto-grid {
@@ -1568,7 +1600,8 @@ ul {
 }
 
 .contacto-form {
-  background: var(--color-white);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 40px;
   box-shadow: var(--shadow-sm);
@@ -1676,7 +1709,8 @@ ul {
 }
 
 .contacto-info-card {
-  background: var(--color-white);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 36px;
   box-shadow: var(--shadow-sm);
@@ -1736,7 +1770,8 @@ ul {
 
 /* Redes Sociales */
 .contacto-sociales {
-  background: var(--color-white);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 24px 36px;
   box-shadow: var(--shadow-sm);
@@ -2177,7 +2212,7 @@ ul {
   /* WhatsApp flotante */
   .whatsapp-float {
     bottom: 15px;
-    right: 15px;
+    right: 80px; /* En móviles también separado del icono de iAsiste */
     padding: 12px 16px;
   }
 
@@ -2242,7 +2277,430 @@ ul {
   }
 }
 
-/* Ocultar indicador de scroll en pantallas de poca altura vertical para evitar solapamientos */
+/* ============================================================
+   ESTILOS ESPECÍFICOS GUÍA DE CORRECCIONES
+   ============================================================ */
+
+/* 2.1 Bloque Perfil Corporativo */
+.bloque-perfil-corporativo {
+  margin-bottom: 30px;
+}
+
+.perfil-corp-titulo,
+.biografia-titulo {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.perfil-corp-titulo::after,
+.biografia-titulo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.puntos-clave-firma {
+  background: var(--color-bg);
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--color-accent);
+  margin: 20px 0;
+}
+
+.puntos-clave-firma h4 {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+
+.puntos-clave-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.puntos-clave-lista li {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* Cita Destacada (Pull Quote) */
+.cita-destacada-box {
+  background: #fbf9f4;
+  border-left: 4px solid var(--color-accent);
+  padding: 24px 28px;
+  margin: 30px 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.cita-destacada-box .pull-quote {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--color-primary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.cita-firma-autor {
+  font-variant: small-caps;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.cita-firma-cargo {
+  font-variant: small-caps;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* 2B Bloque Footer Global */
+.footer-global-strip {
+  background: #061520;
+  color: #e2e8f0;
+  padding: 35px 0;
+  border-top: 2px solid var(--color-accent);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-global-content {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footer-global-brand {
+  font-variant: small-caps;
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.footer-global-sub {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 1.5px;
+  margin-bottom: 2px;
+}
+
+.footer-global-acronym {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.footer-global-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 14px;
+}
+
+.footer-global-copy {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* ============================================================
+   SECCIÓN 7: ARTÍCULO 4 PESTAÑAS (LEGITIMACIÓN DE CAPITALES)
+   ============================================================ */
+.seccion-legitimacion {
+  padding: 80px 0;
+  background: var(--color-bg);
+}
+
+.legit-catalog-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  padding: 35px;
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--color-accent);
+  margin-bottom: 35px;
+}
+
+.catalog-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-accent);
+  background: rgba(201, 169, 89, 0.12);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.catalog-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.catalog-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-light);
+  font-style: italic;
+  margin-bottom: 25px;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  background: var(--color-bg);
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.catalog-item strong {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+}
+
+.catalog-item span {
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.catalog-quote {
+  font-family: var(--font-heading);
+  font-style: italic;
+  color: var(--color-primary);
+  border-left: 3px solid var(--color-accent);
+  padding-left: 18px;
+  margin-top: 15px;
+  font-size: 1.05rem;
+}
+
+/* Pestañas (Tabs) */
+.legit-tabs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.legit-tab-btn {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  padding: 12px 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-body);
+  letter-spacing: 0.5px;
+}
+
+.legit-tab-btn:hover {
+  background: var(--color-bg-alt);
+  border-color: var(--color-accent);
+}
+
+.legit-tab-btn.active {
+  background: var(--color-primary);
+  color: var(--color-accent);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.legit-tabs-body {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 35px;
+}
+
+@media (max-width: 768px) {
+  .legit-tabs-body {
+    padding: 25px 20px;
+  }
+}
+
+.legit-tab-pane {
+  display: none;
+}
+
+.legit-tab-pane.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.legit-pane-title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.legit-pane-subtitle {
+  font-size: 1rem;
+  color: var(--color-accent-dark);
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 25px;
+}
+
+.legit-pull-quote {
+  background: #fbf9f4;
+  border-left: 4px solid var(--color-accent);
+  padding: 18px 24px;
+  margin: 20px 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  color: var(--color-primary);
+  font-size: 1.05rem;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.legit-pull-quote i {
+  color: var(--color-accent);
+  font-size: 1.2rem;
+  margin-top: 3px;
+}
+
+.legit-pane-intro {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+.legit-points-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.legit-point-item {
+  display: flex;
+  gap: 14px;
+  background: var(--color-bg);
+  padding: 18px 22px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-accent);
+}
+
+.point-bullet {
+  font-weight: 700;
+  color: var(--color-accent-dark);
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.point-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  text-align: justify;
+}
+
+.point-text strong {
+  color: var(--color-primary);
+}
+
+.legit-pane-extra {
+  margin: 25px 0;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  text-align: justify;
+}
+
+.legit-conclusion-box {
+  background: rgba(10, 31, 46, 0.04);
+  border-left: 4px solid var(--color-primary);
+  padding: 18px 22px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 25px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-primary);
+}
+
+.legit-download-action {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.btn-download-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.btn-download-pdf:hover {
+  background: var(--color-accent-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pdf-notice-text {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-top: 10px;
+}
+
+/* Ocultar scroll indicator en pantallas chicas */
 @media (max-height: 680px) {
   .hero-scroll-indicator {
     display: none;
