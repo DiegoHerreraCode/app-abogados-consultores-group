@@ -497,12 +497,12 @@ const content = {
     },
     sociales: {
       whatsapp: { url: "https://wa.me/584247808894", label: "WhatsApp" },
-      telegram: { url: "#", label: "Telegram" },
-      facebook: { url: "#", label: "Facebook" },
-      linkedin: { url: "#", label: "LinkedIn" },
-      instagram: { url: "#", label: "Instagram" },
-      twitter: { url: "#", label: "X (Twitter)" },
-      tiktok: { url: "#", label: "TikTok" }
+      telegram: { url: "https://t.me/abogadosconsultoresgroupbot", label: "Telegram" },
+      facebook: { url: "https://www.facebook.com/profile.php?id=61594078108249", label: "Facebook" },
+      linkedin: { url: "https://www.linkedin.com/in/norman-molina-maestre-phd", label: "LinkedIn" },
+      instagram: { url: "https://www.instagram.com/abogadosconsultores.group/", label: "Instagram" },
+      twitter: { url: "https://x.com/LawAdvisorGroup", label: "X (Twitter)" },
+      tiktok: { url: "https://www.tiktok.com/@abogadosconsultoresgroup", label: "TikTok" }
     }
   },
 
