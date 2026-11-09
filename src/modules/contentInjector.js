@@ -138,18 +138,27 @@ function injectSobreMi() {
       `;
     }
 
-    // 2.2 Biografía del Director
+    // 2.2 Biografía del Director (Colapsable con botón "Ver más")
     if (sm.biografia) {
       const bio = sm.biografia;
       html += `
-        <div class="bloque-biografia">
-          <h3 class="biografia-titulo">${bio.titulo}</h3>
-          ${(bio.parrafos || []).map(p => `<p class="sobre-mi-desc">${p}</p>`).join('')}
+        <div class="biografia-collapsible-wrapper">
+          <button type="button" class="btn-toggle-biografia" id="btnToggleBiografia" aria-expanded="false">
+            <span class="btn-toggle-text">Ver más</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="bloque-biografia collapsed" id="bloqueBiografia">
+            <h3 class="biografia-titulo">${bio.titulo}</h3>
+            ${(bio.parrafos || []).map(p => `<p class="sobre-mi-desc">${p}</p>`).join('')}
+          </div>
         </div>
       `;
     }
 
     sobreMiDesc.innerHTML = html;
+
+    // Inicializar evento interactivo del botón "Ver más / Ver menos"
+    setupBiografiaToggle();
   }
 
   const sobreMiValores = document.getElementById('sobreMiValores');
@@ -170,6 +179,34 @@ function injectSobreMi() {
 
   const sobreMiExperienciaTexto = document.getElementById('sobreMiExperienciaTexto');
   if (sobreMiExperienciaTexto && sm.experienciaTexto) sobreMiExperienciaTexto.textContent = sm.experienciaTexto;
+}
+
+/**
+ * Control del botón "Ver más / Ver menos" en la sección de biografía
+ */
+function setupBiografiaToggle() {
+  const btn = document.getElementById('btnToggleBiografia');
+  const bloque = document.getElementById('bloqueBiografia');
+  if (!btn || !bloque) return;
+
+  btn.addEventListener('click', () => {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+    if (isExpanded) {
+      bloque.classList.add('collapsed');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.querySelector('.btn-toggle-text').textContent = 'Ver más';
+      btn.querySelector('i').className = 'fas fa-chevron-down';
+
+      // Scroll suave de regreso al botón para comodidad de lectura
+      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      bloque.classList.remove('collapsed');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.querySelector('.btn-toggle-text').textContent = 'Ver menos';
+      btn.querySelector('i').className = 'fas fa-chevron-up';
+    }
+  });
 }
 
 /**

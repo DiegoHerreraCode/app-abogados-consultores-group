@@ -41,7 +41,7 @@ const content = {
     subtitulo: "MÁS DE 36 AÑOS DE TRAYECTORIA ININTERRUMPIDA APLICANDO EXACTITUD QUIRÚRGICA. NEUTRALIZAMOS EL MARGEN DE ERROR Y DISOLVEMOS PARADOJAS NORMATIVAS PARA GARANTIZAR EL QUIEBRE DE LA PRETENSIÓN DEL ADVERSARIO EN LITIGIOS DE ALTA COMPLEJIDAD.<br><br>36 AÑOS DE TRAYECTORIA ININTERRUMPIDA REDEFINIENDO EL EJERCICIO ESTRATÉGICO DEL DERECHO BAJO LA DIRECCIÓN DEL DR. NORMAN MOLINA-MAESTRE, CREADOR DEL MARCO ANALÍTICO «LÓGICA INVERTIDA».",
     cta: "SOLICITAR CONSULTA ESTRATÉGICA",
     ctaSecundario: "PRÁCTICA KIBS",
-    bgImagen: "/assets/hero-building.jpg"
+    bgImagen: "/assets/hero-building-day.jpg"
   },
 
   // ==========================================================
@@ -330,7 +330,7 @@ const content = {
         titulo: "Legitimación de Capitales, un fiasco legal",
         extracto: "Análisis Estructural y Crítica Epistemológica a la Arquitectura Financiera Global y su Impacto Procesal en Venezuela. Tratado en 4 ventanas analíticas.",
         fecha: "11 de septiembre de 2026",
-        imagen: "/assets/hero-building.jpg",
+        imagen: "/assets/hero-building-day.jpg",
         categoria: "CRIMINOLOGÍA CRÍTICA",
         cta: "Ver Dictamen (4 Ventanas)"
       }
