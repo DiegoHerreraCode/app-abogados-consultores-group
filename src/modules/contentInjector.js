@@ -374,7 +374,7 @@ function injectLegitimacionArticle() {
 
     <!-- Botón de descarga PDF -->
     <div class="legit-download-action">
-      <a href="${data.pdfDownloadUrl}" class="btn btn-primary btn-download-pdf" id="btnDescargarPdfLegit">
+      <a href="${data.pdfDownloadUrl}" download="dictamen-legitimacion-de-capitales-un-fiasco-legal.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-download-pdf" id="btnDescargarPdfLegit">
         <i class="fas fa-file-pdf"></i>
         <span>Descargar Dictamen Doctrinal Completo en PDF</span>
       </a>
@@ -396,16 +396,6 @@ function injectLegitimacionArticle() {
       if (targetPane) targetPane.classList.add('active');
     });
   });
-
-  const btnPdf = document.getElementById('btnDescargarPdfLegit');
-  if (btnPdf) {
-    btnPdf.addEventListener('click', (e) => {
-      if (btnPdf.getAttribute('href') === '#') {
-        e.preventDefault();
-        alert('El archivo PDF completo del artículo de Legitimación de Capitales estará disponible para descarga en breve tras su recepción por correo.');
-      }
-    });
-  }
 }
 
 /**

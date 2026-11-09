@@ -458,7 +458,7 @@ const content = {
         conclusion: "«Tu deber es luchar por el Derecho; pero el día que encuentres en conflicto el Derecho con la Justicia, lucha por la Justicia.» — Eduardo J. Couture"
       }
     ],
-    pdfDownloadUrl: "#"
+    pdfDownloadUrl: "/assets/dictamen-legitimacion-de-capitales-un-fiasco-legal.pdf"
   },
 
   // ==========================================================
