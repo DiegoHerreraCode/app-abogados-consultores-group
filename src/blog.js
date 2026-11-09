@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${art.description}</p>
                     <div class="blog-card-footer">
                         <span class="blog-card-fecha"><i class="far fa-calendar-alt"></i> ${art.date}</span>
-                        <a href="/blog/articulo.html?id=${art.slug}" class="blog-card-link" target="_blank">Leer más <i class="fas fa-arrow-right"></i></a>
+                        <a href="/blog/articulo.html?id=${art.slug}" class="blog-card-link">Leer más <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             `;
