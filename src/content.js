@@ -38,7 +38,7 @@ const content = {
     badge: "FIRMA BOUTIQUE LEGAL KIBS",
     titulo: "ABOGADOS CONSULTORES GROUP",
     subtituloHero: "Análisis Estructural y Litigio de Alta Complejidad",
-    subtitulo: "Más de 36 años de trayectoria ininterrumpida aplicando exactitud quirúrgica. Neutralizamos el margen de error y disolvemos paradojas normativas para garantizar el quiebre de la pretensión del adversario en litigios de alta complejidad.<br><br>36 años de trayectoria ininterrumpida redefiniendo el ejercicio estratégico del Derecho bajo la dirección del Dr. Norman Molina-Maestre, creador del marco analítico «Lógica Invertida».",
+    subtitulo: "Más De 36 Años De Trayectoria Ininterrumpida Aplicando Exactitud Quirúrgica. Neutralizamos El Margen De Error Y Disolvemos Paradojas Normativas Para Garantizar El Quiebre De La Pretensión Del Adversario En Litigios De Alta Complejidad.<br><br>36 Años De Trayectoria Ininterrumpida Redefiniendo El Ejercicio Estratégico Del Derecho Bajo La Dirección Del Dr. Norman Molina-Maestre, Creador Del Marco Analítico «Lógica Invertida».",
     cta: "SOLICITAR CONSULTA ESTRATÉGICA",
     ctaSecundario: "PRÁCTICA KIBS",
     bgImagen: "/assets/hero-building-day.jpg"
