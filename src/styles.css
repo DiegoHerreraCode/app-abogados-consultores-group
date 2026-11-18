@@ -453,7 +453,7 @@ ul {
 
 .hero-subtitle {
   font-family: var(--font-heading);
-  font-style: italic;
+  font-style: normal;
   font-size: 1.25rem;
   color: rgba(255, 255, 255, 0.9);
   max-width: 750px;
@@ -904,7 +904,7 @@ ul {
   color: var(--color-text);
   line-height: 1.8;
   margin-bottom: 24px;
-  font-style: italic;
+  font-style: normal;
 }
 
 .testimonio-autor {
@@ -2348,7 +2348,7 @@ ul {
 .cita-destacada-box .pull-quote {
   font-family: var(--font-heading);
   font-size: 1.15rem;
-  font-style: italic;
+  font-style: normal;
   color: var(--color-primary);
   line-height: 1.7;
   margin-bottom: 16px;
@@ -2522,7 +2522,7 @@ ul {
 .catalog-subtitle {
   font-size: 1rem;
   color: var(--color-text-light);
-  font-style: italic;
+  font-style: normal;
   margin-bottom: 25px;
 }
 
@@ -2557,7 +2557,7 @@ ul {
 
 .catalog-quote {
   font-family: var(--font-heading);
-  font-style: italic;
+  font-style: normal;
   color: var(--color-primary);
   border-left: 3px solid var(--color-accent);
   padding-left: 18px;
@@ -2638,7 +2638,7 @@ ul {
   font-size: 1rem;
   color: var(--color-accent-dark);
   font-weight: 600;
-  font-style: italic;
+  font-style: normal;
   margin-bottom: 25px;
 }
 
@@ -2648,7 +2648,7 @@ ul {
   padding: 18px 24px;
   margin: 20px 0;
   font-family: var(--font-heading);
-  font-style: italic;
+  font-style: normal;
   color: var(--color-primary);
   font-size: 1.05rem;
   display: flex;
