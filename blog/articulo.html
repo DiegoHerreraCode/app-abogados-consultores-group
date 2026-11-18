@@ -389,7 +389,7 @@
         <div class="contacto-form">
           <h3 class="contacto-form-title" id="contactoFormTitle"></h3>
           <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="39827ab5-edb0-4dd1-8672-f5fdd0412675">
+            <input type="hidden" name="access_key" value="f193a7f9-5546-49da-9bef-2221779c2134">
             <input type="hidden" name="subject" value="Nueva consulta desde la web">
             <input type="hidden" name="from_name" value="Abogados Consultores Group ⚖️">
             <input type="checkbox" name="botcheck" class="hidden" style="display:none">
@@ -533,7 +533,7 @@
             <h4>Información de Contacto</h4>
             <div class="contacto-info-item"><i class="fas fa-map-marker-alt"></i><div><strong>Dirección</strong><p>${content.contacto.datos.direccion}</p></div></div>
             <div class="contacto-info-item"><i class="fas fa-phone"></i><div><strong>Teléfonos</strong><p>${content.contacto.datos.telefono}</p></div></div>
-            <div class="contacto-info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p>${content.contacto.datos.email}</p></div></div>
+            ${content.contacto.datos.email ? `<div class="contacto-info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p>${content.contacto.datos.email}</p></div></div>` : ''}
             <div class="contacto-info-item"><i class="fas fa-clock"></i><div><strong>Horario</strong><p>${content.contacto.datos.horario}</p></div></div>
           `;
         }

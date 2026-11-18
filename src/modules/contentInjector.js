@@ -433,7 +433,7 @@ function injectContactInfo() {
       <div class="contacto-info-item"><i class="fas fa-map-marker-alt"></i><div><strong>Dirección</strong><p>${c.datos.direccion || ''}</p></div></div>
       <div class="contacto-info-item"><i class="fas fa-globe"></i><div><strong>Web</strong><p><a href="https://${c.datos.web || 'www.abogadosconsultores.group'}" target="_blank" rel="noopener noreferrer">${c.datos.web || 'www.abogadosconsultores.group'}</a></p></div></div>
       <div class="contacto-info-item"><i class="fas fa-phone"></i><div><strong>Teléfonos y WhatsApp</strong><p>${c.datos.telefono || ''}</p></div></div>
-      <div class="contacto-info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p><a href="mailto:${c.datos.email || ''}">${c.datos.email || ''}</a></p></div></div>
+      ${c.datos.email ? `<div class="contacto-info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p><a href="mailto:${c.datos.email}">${c.datos.email}</a></p></div></div>` : ''}
       <div class="contacto-info-item"><i class="fas fa-clock"></i><div><strong>Horario</strong><p>${c.datos.horario || ''}</p></div></div>
     `;
   }

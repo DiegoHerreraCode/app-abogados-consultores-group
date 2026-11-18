@@ -492,7 +492,7 @@ const content = {
       direccion: "CENTRO EMPRESARIAL LA ESMERALDA, AVENIDA LOS CORTIJOS, CAMPO ALEGRE, CHACAO, CARACAS, VENEZUELA 1060",
       web: "www.abogadosconsultores.group",
       telefono: "Worldwide: +1 (202) 975-0769<br>Venezuela: +58 (424) 780.8894",
-      email: "contacto@abogadosconsultores.group",
+      email: "",
       horario: "Lun - Vie: 8:00 am - 5:00 pm | Sáb: 8:00 am - 1:00 pm"
     },
     sociales: {
