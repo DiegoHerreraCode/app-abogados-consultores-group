@@ -454,11 +454,11 @@ ul {
 }
 
 .hero-subtitle {
-  font-family: var(--font-heading);
-  font-variant: small-caps;
+  font-family: var(--font-body);
+  font-variant: normal;
   font-style: normal;
   font-size: 1.15rem;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   color: rgba(255, 255, 255, 0.9);
   max-width: 750px;
   margin: 0 auto 50px;
