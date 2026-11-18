@@ -98,7 +98,7 @@ const content = {
         descripcion: "MANIOBRAS LEGALES DISEÑADAS SIN MARGEN DE ERROR PARA ANULAR A LA CONTRAPARTE."
       }
     ],
-    imagen: "/assets/norman.png",
+    imagen: "/assets/norman-2.jpeg",
     experienciaNum: "36",
     experienciaTexto: "AÑOS DE TRAYECTORIA"
   },
